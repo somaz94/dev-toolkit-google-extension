@@ -6,16 +6,26 @@
 </head>
 <body>
   <div class="container">
-    <div class="tabs">
-      <button class="tab-btn active" data-tab="json">JSON</button>
-      <button class="tab-btn" data-tab="base64">Base64</button>
-      <button class="tab-btn" data-tab="jwt">JWT</button>
-      <button class="tab-btn" data-tab="url">URL</button>
+    <div class="header">
+      <div class="tabs">
+        <button class="tab-btn active" data-tab="json">JSON</button>
+        <button class="tab-btn" data-tab="base64">Base64</button>
+        <button class="tab-btn" data-tab="jwt">JWT</button>
+        <button class="tab-btn" data-tab="url">URL</button>
+      </div>
+      <button id="theme-toggle">🌙</button>
     </div>
+    
+    <div class="mode-selector">
+      <button class="mode-btn active" data-mode="encode">Encode</button>
+      <button class="mode-btn" data-mode="decode">Decode</button>
+    </div>
+
     <div class="content">
       <textarea id="input" placeholder="Enter your text here..."></textarea>
       <div class="actions">
         <button id="format" class="primary">Format JSON</button>
+        <button id="copy">Copy</button>
         <button id="clear">Clear</button>
       </div>
       <textarea id="output" readonly placeholder="Result will appear here..."></textarea>
