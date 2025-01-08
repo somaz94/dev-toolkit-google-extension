@@ -2,6 +2,9 @@
 
 A developer toolkit for JSON formatting, Base64 encoding/decoding, JWT decoding, and URL encoding/decoding.
 
+## Screenshot
+<img src="./img/app.png" width="300" alt="Dev Toolkit">
+
 ## Features
 - 🔍 JSON Formatter & Validator
   - Format JSON with proper indentation
