@@ -3,7 +3,7 @@
   "name": "Dev Toolkit",
   "version": "1.0.0",
   "description": "Developer toolkit for JSON, Base64, JWT, and URL encoding/decoding",
-  "permissions": ["activeTab"],
+  "permissions": [],
   "action": {
     "default_popup": "src/popup/popup.html",
     "default_icon": {
