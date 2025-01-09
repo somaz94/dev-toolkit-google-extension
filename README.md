@@ -33,7 +33,7 @@ A developer toolkit for JSON formatting, Base64 encoding/decoding, JWT decoding,
 
 ## Installation
 ### From Chrome Web Store
-1. Visit [Dev Toolkit](chrome-web-store-link)
+1. Visit [Dev Toolkit](https://chromewebstore.google.com/detail/dev-toolkit/docgjoppdhbahapgbemfadlkgchnmecc)
 2. Click "Add to Chrome"
 
 ### From Source
