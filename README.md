@@ -34,9 +34,16 @@ Zero dependencies. Zero permissions. Manifest V3.
 - Decode URL-encoded strings
 - Support for query parameters
 
+### Timestamp Converter
+- Unix timestamp to date (auto-detect seconds/milliseconds)
+- Date string to Unix timestamp
+- UTC and local time display
+
 ### Dark Mode
 - Toggle between light and dark themes
 - Persistent theme preference
+
+See [Features](docs/FEATURES.md) for detailed usage and examples.
 
 <br/>
 
@@ -116,25 +123,40 @@ Decode: https%3A%2F%2Fexample.com%3Fname%3DJohn%20Doe → https://example.com?na
 
 <br/>
 
+### Timestamp
+```
+Timestamp → Date:
+Input: 1711270800
+Output: UTC: 2024-03-24 07:00:00 UTC / Local: 03/24/2024, 16:00:00 KST
+
+Date → Timestamp:
+Input: 2026-03-24 (or "now")
+Output: Seconds: 1774440000 / Milliseconds: 1774440000000
+```
+
+<br/>
+
 ## Project Structure
 
 ```
 dev-toolkit-google-extension/
-├── manifest.json          # Chrome extension config (Manifest V3)
+├── manifest.json              # Chrome extension config (Manifest V3)
 ├── src/
 │   ├── popup/
-│   │   ├── popup.html     # UI markup
-│   │   ├── popup.js       # Event handling & orchestration
-│   │   └── popup.css      # Light/dark theme styling
+│   │   ├── popup.html         # UI markup
+│   │   ├── popup.js           # Event handling & orchestration
+│   │   └── popup.css          # Light/dark theme styling
 │   └── utils/
-│       ├── jsonFormatter.js
-│       ├── base64Utils.js
-│       ├── jwtDecoder.js
-│       ├── jwtEncoder.js
-│       ├── urlUtils.js
-│       └── validator.js
-├── icons/                 # Extension icons (16, 48, 128px)
-└── .github/workflows/     # CI/CD
+│       ├── jsonFormatter.js   # JSON formatting & validation
+│       ├── base64Utils.js     # Base64 encode/decode
+│       ├── jwtDecoder.js      # JWT token decoding
+│       ├── jwtEncoder.js      # JWT token encoding
+│       ├── urlUtils.js        # URL encode/decode
+│       ├── timestampUtils.js  # Timestamp conversion
+│       └── validator.js       # Input validation
+├── icons/                     # Extension icons (16, 48, 128px)
+├── docs/                      # Documentation
+└── .github/workflows/         # CI/CD
 ```
 
 <br/>
@@ -145,6 +167,13 @@ dev-toolkit-google-extension/
 - HTML5 / CSS3 with CSS custom properties
 - Chrome Extension Manifest V3
 - Native browser APIs (Clipboard, localStorage, Web Crypto)
+
+<br/>
+
+## Documentation
+
+- [Features](docs/FEATURES.md) - Detailed usage and examples for all tools
+- [Development](docs/DEVELOPMENT.md) - Setup, local development, adding tools, Chrome Web Store publishing
 
 <br/>
 
