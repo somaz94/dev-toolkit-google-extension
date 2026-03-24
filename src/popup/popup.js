@@ -193,17 +193,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     try {
       await navigator.clipboard.writeText(textToCopy);
-      
-      // 복사 성공 표시
-      const originalText = copyBtn.textContent;
-      copyBtn.textContent = 'Copied!';
-      copyBtn.classList.add('success');
-      
-      // 1초 후 원래 텍스트로 복귀
-      setTimeout(() => {
-        copyBtn.textContent = originalText;
-        copyBtn.classList.remove('success');
-      }, 1000);
+      showToast('Copied to clipboard!');
     } catch (err) {
       console.error('Failed to copy text: ', err);
     }
@@ -298,5 +288,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function clearError() {
     outputArea.classList.remove('error');
+  }
+
+  function showToast(message) {
+    const existing = document.querySelector('.toast');
+    if (existing) existing.remove();
+
+    const toast = document.createElement('div');
+    toast.className = 'toast';
+    toast.textContent = message;
+    document.querySelector('.container').appendChild(toast);
+
+    setTimeout(() => toast.classList.add('show'), 10);
+    setTimeout(() => {
+      toast.classList.remove('show');
+      setTimeout(() => toast.remove(), 300);
+    }, 1500);
   }
 });
