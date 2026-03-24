@@ -1,0 +1,23 @@
+name: Contributors
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+
+jobs:
+  contributors:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Update contributors
+        uses: somaz94/contributors-action@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
