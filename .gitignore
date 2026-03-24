@@ -47,6 +47,9 @@ logs
 # Optional eslint cache
 .eslintcache
 
+# Test coverage
+coverage/
+
 # Browser Extension specific
 *.pem
 *.crx

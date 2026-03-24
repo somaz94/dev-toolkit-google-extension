@@ -125,6 +125,12 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
 
+    // 대용량 입력 제한 (5MB)
+    if (input.length > 5 * 1024 * 1024) {
+      showError('Input too large. Maximum 5MB allowed.');
+      return;
+    }
+
     // 히스토리 저장
     if (input.trim()) saveHistory(currentTab, input);
 
