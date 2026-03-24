@@ -3,6 +3,7 @@ import { encodeBase64, decodeBase64 } from '../utils/base64Utils.js';
 import { decodeJWT } from '../utils/jwtDecoder.js';
 import { encodeJWT } from '../utils/jwtEncoder.js';
 import { encodeURL, decodeURL } from '../utils/urlUtils.js';
+import { timestampToDate, dateToTimestamp } from '../utils/timestampUtils.js';
 import { validateInput } from '../utils/validator.js';
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -45,8 +46,16 @@ document.addEventListener('DOMContentLoaded', () => {
       if (currentTab === 'json') {
         modeSelector.classList.remove('visible');
         formatBtn.textContent = 'Format JSON';
+      } else if (currentTab === 'timestamp') {
+        modeSelector.classList.add('visible');
+        // timestamp 탭: encode = Date→Timestamp, decode = Timestamp→Date
+        modeBtns[0].textContent = 'To Timestamp';
+        modeBtns[1].textContent = 'To Date';
+        updateButtonText();
       } else {
         modeSelector.classList.add('visible');
+        modeBtns[0].textContent = 'Encode';
+        modeBtns[1].textContent = 'Decode';
         updateButtonText();
       }
       
@@ -61,6 +70,7 @@ document.addEventListener('DOMContentLoaded', () => {
       btn.classList.add('active');
       currentMode = btn.dataset.mode;
       updateButtonText();
+      updatePlaceholder();
     });
   });
 
@@ -130,6 +140,9 @@ document.addEventListener('DOMContentLoaded', () => {
         case 'url':
           outputArea.value = currentMode === 'encode' ? encodeURL(input) : decodeURL(input);
           break;
+        case 'timestamp':
+          outputArea.value = currentMode === 'encode' ? dateToTimestamp(input) : timestampToDate(input);
+          break;
       }
       clearError();
     } catch (error) {
@@ -174,6 +187,9 @@ document.addEventListener('DOMContentLoaded', () => {
       case 'url':
         formatBtn.textContent = currentMode === 'encode' ? 'Encode URL' : 'Decode URL';
         break;
+      case 'timestamp':
+        formatBtn.textContent = currentMode === 'encode' ? 'Date → Timestamp' : 'Timestamp → Date';
+        break;
     }
   }
 
@@ -181,6 +197,17 @@ document.addEventListener('DOMContentLoaded', () => {
     inputArea.value = '';
     outputArea.value = '';
     updateButtonText();
+    updatePlaceholder();
+  }
+
+  function updatePlaceholder() {
+    if (currentTab === 'timestamp') {
+      inputArea.placeholder = currentMode === 'encode'
+        ? 'Enter date: 2026-03-24, 2026-03-24T12:00:00Z, or "now"'
+        : 'Enter Unix timestamp: 1711270800 or 1711270800000';
+    } else {
+      inputArea.placeholder = 'Enter your text here...';
+    }
   }
 
   function showError(message) {
