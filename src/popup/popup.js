@@ -136,7 +136,7 @@ document.addEventListener('DOMContentLoaded', () => {
           break;
         case 'jwt':
           if (currentMode === 'encode') {
-            const encoded = encodeJWT(input);
+            const encoded = await encodeJWT(input);
             if (encoded.error) {
               showError(encoded.error);
             } else {
