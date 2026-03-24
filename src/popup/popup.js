@@ -7,6 +7,7 @@ import { timestampToDate, dateToTimestamp } from '../utils/timestampUtils.js';
 import { generateHash } from '../utils/hashUtils.js';
 import { generateUUID } from '../utils/uuidUtils.js';
 import { convertColor } from '../utils/colorUtils.js';
+import { computeDiff } from '../utils/diffUtils.js';
 import { validateInput } from '../utils/validator.js';
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -58,6 +59,9 @@ document.addEventListener('DOMContentLoaded', () => {
       } else if (currentTab === 'color') {
         modeSelector.classList.remove('visible');
         formatBtn.textContent = 'Convert Color';
+      } else if (currentTab === 'diff') {
+        modeSelector.classList.remove('visible');
+        formatBtn.textContent = 'Compare';
       } else if (currentTab === 'timestamp') {
         modeSelector.classList.add('visible');
         // timestamp 탭: encode = Date→Timestamp, decode = Timestamp→Date
@@ -164,6 +168,9 @@ document.addEventListener('DOMContentLoaded', () => {
         case 'color':
           outputArea.value = convertColor(input);
           break;
+        case 'diff':
+          outputArea.value = computeDiff(input);
+          break;
       }
       clearError();
     } catch (error) {
@@ -232,6 +239,8 @@ document.addEventListener('DOMContentLoaded', () => {
       inputArea.placeholder = 'Enter count (1-100) or leave empty for 1 UUID';
     } else if (currentTab === 'color') {
       inputArea.placeholder = '#ff0000, rgb(255,0,0), or hsl(0,100,50)';
+    } else if (currentTab === 'diff') {
+      inputArea.placeholder = 'Enter two texts separated by --- on its own line:\n\nfirst text\n---\nsecond text';
     } else {
       inputArea.placeholder = 'Enter your text here...';
     }
