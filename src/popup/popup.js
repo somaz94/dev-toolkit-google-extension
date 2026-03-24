@@ -204,6 +204,28 @@ document.addEventListener('DOMContentLoaded', () => {
   // Clear 버튼 클릭 처리
   clearBtn.addEventListener('click', clearFields);
 
+  // 키보드 단축키
+  document.addEventListener('keydown', (e) => {
+    // Ctrl+Enter or Cmd+Enter: 변환 실행
+    if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+      e.preventDefault();
+      formatBtn.click();
+    }
+    // Ctrl+Shift+C: 결과 복사
+    if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key === 'C') {
+      e.preventDefault();
+      copyBtn.click();
+    }
+    // Alt+1~9: 탭 전환
+    if (e.altKey && e.key >= '1' && e.key <= '9') {
+      e.preventDefault();
+      const idx = parseInt(e.key) - 1;
+      if (idx < tabs.length) {
+        tabs[idx].click();
+      }
+    }
+  });
+
   function updateButtonText() {
     switch (currentTab) {
       case 'base64':
