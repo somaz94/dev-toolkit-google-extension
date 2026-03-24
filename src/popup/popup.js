@@ -26,6 +26,26 @@ document.addEventListener('DOMContentLoaded', () => {
 
   let currentTab = 'json';
   let currentMode = 'encode';
+  const MAX_HISTORY = 5;
+
+  // 히스토리 저장
+  function saveHistory(tab, input) {
+    if (!input.trim()) return;
+    const key = `history_${tab}`;
+    let history = JSON.parse(localStorage.getItem(key) || '[]');
+    // 중복 제거 후 앞에 추가
+    history = history.filter(h => h !== input);
+    history.unshift(input);
+    if (history.length > MAX_HISTORY) history = history.slice(0, MAX_HISTORY);
+    localStorage.setItem(key, JSON.stringify(history));
+  }
+
+  // 마지막 입력 복원
+  function loadLastInput(tab) {
+    const key = `history_${tab}`;
+    const history = JSON.parse(localStorage.getItem(key) || '[]');
+    return history.length > 0 ? history[0] : '';
+  }
 
   // 테마 설정 불러오기
   const currentTheme = localStorage.getItem('theme') || 'light';
@@ -104,6 +124,9 @@ document.addEventListener('DOMContentLoaded', () => {
       showError('Input is empty.');
       return;
     }
+
+    // 히스토리 저장
+    if (input.trim()) saveHistory(currentTab, input);
 
     // 입력값 유효성 검사
     if (currentTab === 'base64' && currentMode === 'decode') {
@@ -215,7 +238,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // Clear 버튼 클릭 처리
-  clearBtn.addEventListener('click', clearFields);
+  clearBtn.addEventListener('click', () => clearFields(false));
 
   // 키보드 단축키
   document.addEventListener('keydown', (e) => {
@@ -256,8 +279,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  function clearFields() {
-    inputArea.value = '';
+  function clearFields(restoreHistory = true) {
+    inputArea.value = restoreHistory ? loadLastInput(currentTab) : '';
     outputArea.value = '';
     updateButtonText();
     updatePlaceholder();
