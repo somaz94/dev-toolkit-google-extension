@@ -1,4 +1,4 @@
-import { formatJSON } from '../utils/jsonFormatter.js';
+import { formatJSON, minifyJSON } from '../utils/jsonFormatter.js';
 import { encodeBase64, decodeBase64 } from '../utils/base64Utils.js';
 import { decodeJWT } from '../utils/jwtDecoder.js';
 import { encodeJWT } from '../utils/jwtEncoder.js';
@@ -20,7 +20,10 @@ document.addEventListener('DOMContentLoaded', () => {
   const themeToggle = document.getElementById('theme-toggle');
   const modeSelector = document.querySelector('.mode-selector');
   const modeBtns = document.querySelectorAll('.mode-btn');
-  
+  const jsonOptions = document.querySelector('.json-options');
+  const jsonIndent = document.getElementById('json-indent');
+  const minifyBtn = document.getElementById('minify');
+
   let currentTab = 'json';
   let currentMode = 'encode';
 
@@ -47,6 +50,9 @@ document.addEventListener('DOMContentLoaded', () => {
       currentTab = tab.dataset.tab;
       
       // JSON 탭일 때는 모드 선택기 숨기기
+      // JSON 옵션 표시/숨김
+      jsonOptions.style.display = currentTab === 'json' ? 'flex' : 'none';
+
       if (currentTab === 'json') {
         modeSelector.classList.remove('visible');
         formatBtn.textContent = 'Format JSON';
@@ -128,9 +134,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     try {
       switch (currentTab) {
-        case 'json':
-          outputArea.value = formatJSON(input);
+        case 'json': {
+          const indent = jsonIndent.value === 'tab' ? 'tab' : parseInt(jsonIndent.value);
+          outputArea.value = formatJSON(input, indent);
           break;
+        }
         case 'base64':
           outputArea.value = currentMode === 'encode' ? encodeBase64(input) : decodeBase64(input);
           break;
@@ -198,6 +206,21 @@ document.addEventListener('DOMContentLoaded', () => {
       }, 1000);
     } catch (err) {
       console.error('Failed to copy text: ', err);
+    }
+  });
+
+  // Minify 버튼 클릭 처리
+  minifyBtn.addEventListener('click', () => {
+    const input = inputArea.value;
+    if (!input.trim()) {
+      showError('Input is empty.');
+      return;
+    }
+    try {
+      outputArea.value = minifyJSON(input);
+      clearError();
+    } catch (e) {
+      showError(e.message);
     }
   });
 

@@ -26,6 +26,15 @@
       <button class="mode-btn" data-mode="decode">Decode</button>
     </div>
 
+    <div class="json-options" style="display:none;">
+      <select id="json-indent">
+        <option value="2">2 spaces</option>
+        <option value="4">4 spaces</option>
+        <option value="tab">Tab</option>
+      </select>
+      <button id="minify" class="minify-btn">Minify</button>
+    </div>
+
     <div class="content">
       <textarea id="input" placeholder="Enter your text here..."></textarea>
       <div class="actions">

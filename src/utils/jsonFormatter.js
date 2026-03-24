@@ -1,13 +1,11 @@
-export function formatJSON(input) {
+export function formatJSON(input, indent = 2) {
   try {
-    // 입력이 비어있는 경우
     if (!input.trim()) {
       return '';
     }
-    
-    // JSON 파싱 및 포맷팅
     const parsed = JSON.parse(input);
-    return JSON.stringify(parsed, null, 2);
+    const space = indent === 'tab' ? '\t' : indent;
+    return JSON.stringify(parsed, null, space);
   } catch (e) {
     return `Error: ${e.message}`;
   }
