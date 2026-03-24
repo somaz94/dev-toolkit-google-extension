@@ -4,6 +4,7 @@ import { decodeJWT } from '../utils/jwtDecoder.js';
 import { encodeJWT } from '../utils/jwtEncoder.js';
 import { encodeURL, decodeURL } from '../utils/urlUtils.js';
 import { timestampToDate, dateToTimestamp } from '../utils/timestampUtils.js';
+import { generateHash } from '../utils/hashUtils.js';
 import { validateInput } from '../utils/validator.js';
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -46,6 +47,9 @@ document.addEventListener('DOMContentLoaded', () => {
       if (currentTab === 'json') {
         modeSelector.classList.remove('visible');
         formatBtn.textContent = 'Format JSON';
+      } else if (currentTab === 'hash') {
+        modeSelector.classList.remove('visible');
+        formatBtn.textContent = 'Generate Hash';
       } else if (currentTab === 'timestamp') {
         modeSelector.classList.add('visible');
         // timestamp 탭: encode = Date→Timestamp, decode = Timestamp→Date
@@ -75,7 +79,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // Format/Encode 버튼 클릭 처리
-  formatBtn.addEventListener('click', () => {
+  formatBtn.addEventListener('click', async () => {
     const input = inputArea.value;
     
     if (!input.trim()) {
@@ -143,6 +147,9 @@ document.addEventListener('DOMContentLoaded', () => {
         case 'timestamp':
           outputArea.value = currentMode === 'encode' ? dateToTimestamp(input) : timestampToDate(input);
           break;
+        case 'hash':
+          outputArea.value = await generateHash(input);
+          break;
       }
       clearError();
     } catch (error) {
@@ -205,6 +212,8 @@ document.addEventListener('DOMContentLoaded', () => {
       inputArea.placeholder = currentMode === 'encode'
         ? 'Enter date: 2026-03-24, 2026-03-24T12:00:00Z, or "now"'
         : 'Enter Unix timestamp: 1711270800 or 1711270800000';
+    } else if (currentTab === 'hash') {
+      inputArea.placeholder = 'Enter text to generate hash...';
     } else {
       inputArea.placeholder = 'Enter your text here...';
     }
