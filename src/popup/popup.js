@@ -5,6 +5,7 @@ import { encodeJWT } from '../utils/jwtEncoder.js';
 import { encodeURL, decodeURL } from '../utils/urlUtils.js';
 import { timestampToDate, dateToTimestamp } from '../utils/timestampUtils.js';
 import { generateHash } from '../utils/hashUtils.js';
+import { generateUUID } from '../utils/uuidUtils.js';
 import { validateInput } from '../utils/validator.js';
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -50,6 +51,9 @@ document.addEventListener('DOMContentLoaded', () => {
       } else if (currentTab === 'hash') {
         modeSelector.classList.remove('visible');
         formatBtn.textContent = 'Generate Hash';
+      } else if (currentTab === 'uuid') {
+        modeSelector.classList.remove('visible');
+        formatBtn.textContent = 'Generate UUID';
       } else if (currentTab === 'timestamp') {
         modeSelector.classList.add('visible');
         // timestamp 탭: encode = Date→Timestamp, decode = Timestamp→Date
@@ -82,7 +86,7 @@ document.addEventListener('DOMContentLoaded', () => {
   formatBtn.addEventListener('click', async () => {
     const input = inputArea.value;
     
-    if (!input.trim()) {
+    if (!input.trim() && currentTab !== 'uuid') {
       showError('Input is empty.');
       return;
     }
@@ -150,6 +154,9 @@ document.addEventListener('DOMContentLoaded', () => {
         case 'hash':
           outputArea.value = await generateHash(input);
           break;
+        case 'uuid':
+          outputArea.value = generateUUID(input);
+          break;
       }
       clearError();
     } catch (error) {
@@ -214,6 +221,8 @@ document.addEventListener('DOMContentLoaded', () => {
         : 'Enter Unix timestamp: 1711270800 or 1711270800000';
     } else if (currentTab === 'hash') {
       inputArea.placeholder = 'Enter text to generate hash...';
+    } else if (currentTab === 'uuid') {
+      inputArea.placeholder = 'Enter count (1-100) or leave empty for 1 UUID';
     } else {
       inputArea.placeholder = 'Enter your text here...';
     }
