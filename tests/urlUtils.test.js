@@ -17,4 +17,15 @@ describe('decodeURL', () => {
   test('decodes encoded URL', () => {
     expect(decodeURL('hello%20world')).toBe('hello world');
   });
+
+  test('handles encoding error', () => {
+    // encodeURIComponent handles most inputs, test edge case
+    const result = encodeURL('test & value');
+    expect(result).toContain('%26');
+  });
+
+  test('handles decoding error', () => {
+    const result = decodeURL('%E0%A4%A');
+    expect(result).toContain('Invalid');
+  });
 });

@@ -25,7 +25,39 @@ describe('convertColor', () => {
     expect(result).toContain('HEX: #ff0000');
   });
 
+  test('converts HSL format', () => {
+    const result = convertColor('hsl(0, 100, 50)');
+    expect(result).toContain('HEX: #ff0000');
+    expect(result).toContain('RGB: rgb(255, 0, 0)');
+  });
+
+  test('converts grayscale HSL (saturation 0)', () => {
+    const result = convertColor('hsl(0, 0, 50)');
+    expect(result).toContain('RGB: rgb(128, 128, 128)');
+  });
+
+  test('converts green color', () => {
+    const result = convertColor('#00ff00');
+    expect(result).toContain('RGB: rgb(0, 255, 0)');
+  });
+
+  test('converts blue color', () => {
+    const result = convertColor('rgb(0, 0, 255)');
+    expect(result).toContain('HEX: #0000ff');
+  });
+
+  test('converts black', () => {
+    const result = convertColor('#000000');
+    expect(result).toContain('HSL: hsl(0, 0%, 0%)');
+  });
+
   test('throws on invalid input', () => {
     expect(() => convertColor('not a color')).toThrow('Invalid color format');
+  });
+
+  test('handles edge case HSL values', () => {
+    // 300 as hue is valid in HSL (0-360)
+    const result = convertColor('hsl(300, 50, 50)');
+    expect(result).toContain('HEX:');
   });
 });
