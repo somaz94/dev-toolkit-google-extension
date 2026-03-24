@@ -39,9 +39,30 @@ Zero dependencies. Zero permissions. Manifest V3.
 - Date string to Unix timestamp
 - UTC and local time display
 
+### Hash Generator
+- SHA-1, SHA-256, SHA-384, SHA-512
+- Web Crypto API based
+
+### UUID Generator
+- UUID v4 generation
+- Batch generation (up to 100)
+
+### Color Converter
+- Auto-detect HEX, RGB, HSL input
+- Convert to all three formats
+
+### Diff Viewer
+- Line-by-line text comparison
+- Summary with added/removed/unchanged counts
+
 ### Dark Mode
 - Toggle between light and dark themes
 - Persistent theme preference
+
+### Keyboard Shortcuts
+- `Ctrl+Enter` — Execute conversion
+- `Ctrl+Shift+C` — Copy result
+- `Alt+1-9` — Switch tabs
 
 See [Features](docs/FEATURES.md) for detailed usage and examples.
 
@@ -136,11 +157,59 @@ Output: Seconds: 1774440000 / Milliseconds: 1774440000000
 
 <br/>
 
+### Hash
+```
+Input: Hello World!
+Output:
+SHA-1:   2ef7bde608ce5404e97d5f042f95f89f1c232871
+SHA-256: 7f83b1657ff1fc53b92dc18148a1d65dfc2d4b1fa3d677284addd200126d9069
+```
+
+<br/>
+
+### UUID
+```
+Input: 3 (or empty for 1)
+Output:
+550e8400-e29b-41d4-a716-446655440000
+6ba7b810-9dad-11d1-80b4-00c04fd430c8
+f47ac10b-58cc-4372-a567-0e02b2c3d479
+```
+
+<br/>
+
+### Color
+```
+Input: #ff6347
+Output:
+HEX: #ff6347
+RGB: rgb(255, 99, 71)
+HSL: hsl(9, 100%, 64%)
+```
+
+<br/>
+
+### Diff
+```
+Input:
+hello world
+---
+hello earth
+
+Output:
+[Summary] +1 added, -1 removed, 0 unchanged
+  - hello world
+  + hello earth
+```
+
+<br/>
+
 ## Project Structure
 
 ```
 dev-toolkit-google-extension/
 ├── manifest.json              # Chrome extension config (Manifest V3)
+├── Makefile                   # Build, test, package commands
 ├── src/
 │   ├── popup/
 │   │   ├── popup.html         # UI markup
@@ -150,10 +219,16 @@ dev-toolkit-google-extension/
 │       ├── jsonFormatter.js   # JSON formatting & validation
 │       ├── base64Utils.js     # Base64 encode/decode
 │       ├── jwtDecoder.js      # JWT token decoding
-│       ├── jwtEncoder.js      # JWT token encoding
+│       ├── jwtEncoder.js      # JWT token encoding (HMAC-SHA256)
 │       ├── urlUtils.js        # URL encode/decode
-│       ├── timestampUtils.js  # Timestamp conversion
+│       ├── timestampUtils.js  # Unix timestamp conversion
+│       ├── hashUtils.js       # Hash generation (SHA-1/256/384/512)
+│       ├── uuidUtils.js       # UUID v4 generation
+│       ├── colorUtils.js      # Color conversion (HEX/RGB/HSL)
+│       ├── diffUtils.js       # Line-by-line text diff
 │       └── validator.js       # Input validation
+├── tests/                     # Unit tests (Jest)
+├── hack/                      # Scripts (bump-version)
 ├── icons/                     # Extension icons (16, 48, 128px)
 ├── docs/                      # Documentation
 └── .github/workflows/         # CI/CD

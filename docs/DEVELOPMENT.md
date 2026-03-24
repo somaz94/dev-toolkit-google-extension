@@ -110,7 +110,38 @@ After editing files:
 
 4. **Add validation** in `src/utils/validator.js` if needed
 
-5. **Update docs** (README.md, DEVELOPMENT.md)
+5. **Add tests** in `tests/myTool.test.js`
+
+6. **Update docs** (README.md, FEATURES.md, DEVELOPMENT.md)
+
+<br/>
+
+## Testing & Linting
+
+### Run Tests
+```bash
+make test                # Run all tests
+make test-cover          # Run tests with coverage report
+```
+
+### Linting
+```bash
+make lint                # Check code style
+make lint-fix            # Auto-fix lint issues
+```
+
+### Makefile Commands
+```bash
+make help                # Show all available commands
+make install             # Install dev dependencies
+make test                # Run unit tests
+make test-cover          # Run tests with coverage
+make lint                # ESLint
+make package             # ZIP for Chrome Web Store
+make version             # Show current version
+make bump-version VERSION=1.1.0  # Update version
+make clean               # Remove build artifacts
+```
 
 <br/>
 

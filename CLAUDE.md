@@ -21,7 +21,9 @@
 ## Key Directories
 
 - `src/popup/` — UI (popup.html, popup.js, popup.css)
-- `src/utils/` — Utility modules (jsonFormatter, base64Utils, jwtDecoder, jwtEncoder, urlUtils, validator)
+- `src/utils/` — Utility modules (jsonFormatter, base64Utils, jwtDecoder, jwtEncoder, urlUtils, timestampUtils, hashUtils, uuidUtils, colorUtils, diffUtils, validator)
+- `tests/` — Unit tests (Jest)
+- `hack/` — Scripts (bump-version.sh)
 - `icons/` — Extension icons (16, 48, 128px)
 - `.github/workflows/` — CI/CD workflows
 
@@ -29,17 +31,25 @@
 
 ## Features
 
-- JSON Formatter & Validator
+- JSON Formatter & Validator (indent selection, minify)
 - Base64 Encoder/Decoder
-- JWT Token Encoder/Decoder
+- JWT Token Encoder/Decoder (HMAC-SHA256 signing)
 - URL Encoder/Decoder
+- Timestamp Converter (Unix timestamp <-> date)
+- Hash Generator (SHA-1, SHA-256, SHA-384, SHA-512)
+- UUID Generator (v4, batch up to 100)
+- Color Converter (HEX, RGB, HSL)
+- Diff Viewer (line-by-line comparison)
 - Dark mode with localStorage persistence
+- Keyboard shortcuts (Ctrl+Enter, Alt+1-9)
+- Input history (localStorage, last 5 per tab)
 
 <br/>
 
-## Tech Stack
+## Commands
 
-- JavaScript (ES6 Modules)
-- HTML5 / CSS3 (CSS custom properties for theming)
-- Chrome Extension Manifest V3
-- Web Crypto API, Clipboard API, localStorage
+- `make test` — Run unit tests
+- `make test-cover` — Run tests with coverage
+- `make lint` — ESLint
+- `make package` — ZIP for Chrome Web Store
+- `make bump-version VERSION=x.x.x` — Update version
