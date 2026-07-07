@@ -1,4 +1,4 @@
-name: Issue Greeting
+name: Issue Greeting Bot
 
 on:
   issues:
@@ -7,24 +7,6 @@ on:
 permissions:
   issues: write
 
-# One greeting per issue. cancel-in-progress: true is safe — if the user
-# closes+reopens quickly we just want the latest run to win.
-concurrency:
-  group: issue-greeting-${{ github.event.issue.number }}
-  cancel-in-progress: true
-
 jobs:
   greeting:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/first-interaction@v1
-        with:
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
-          issue-message: |
-            Thanks for opening your first issue! We'll take a look as soon as possible.
-
-            In the meantime, please make sure you've provided:
-            - Chrome version
-            - Extension version (from manifest.json)
-            - Steps to reproduce the issue
-            - Expected vs actual behavior
+    uses: somaz94/.github/.github/workflows/issue-greeting-reusable.yml@main
