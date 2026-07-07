@@ -1,30 +1,16 @@
-name: Contributors
+name: Generate Contributors
 
 on:
-  push:
-    branches:
-      - main
+  workflow_dispatch:
+  workflow_run:
+    workflows: ["Generate changelog"]
+    types:
+      - completed
 
 permissions:
   contents: write
 
-# Serialize runs — CONTRIBUTORS.md is rewritten in full each time, so two
-# parallel runs would race and clobber each other. cancel-in-progress: true
-# is safe since the latest run always produces the up-to-date file.
-concurrency:
-  group: contributors
-  cancel-in-progress: true
-
 jobs:
-  contributors:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v6
-        with:
-          fetch-depth: 0
-
-      - name: Update contributors
-        uses: somaz94/contributors-action@v1
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+  update_contributors:
+    uses: somaz94/.github/.github/workflows/contributors-reusable.yml@main
+    secrets: inherit
