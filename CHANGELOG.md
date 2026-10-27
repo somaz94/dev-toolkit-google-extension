@@ -2,6 +2,50 @@
 
 All notable changes to this project will be documented in this file.
 
+## [v1.2.0](https://github.com/somaz94/dev-toolkit-google-extension/compare/v1.1.0...v1.2.0) (2026-10-27)
+
+### Features
+
+- add Korean, following the browser language ([0dcae5a](https://github.com/somaz94/dev-toolkit-google-extension/commit/0dcae5a4de37e42970bd8f51507062238bb2e259))
+
+### Documentation
+
+- remove duplicate rules covered by global CLAUDE.md ([e428df6](https://github.com/somaz94/dev-toolkit-google-extension/commit/e428df694fbf27560785eec18aad18646793cb84))
+
+### Continuous Integration
+
+- package _locales in the release ZIP ([431d381](https://github.com/somaz94/dev-toolkit-google-extension/commit/431d381af857a1f78499d746ef21444fa2f11248))
+- move the release action to its Node 24 major ([156ae9e](https://github.com/somaz94/dev-toolkit-google-extension/commit/156ae9e6f804755aed5800c343a9960fd5984431))
+- deduplicate identical commit lines in release notes ([e9b42f6](https://github.com/somaz94/dev-toolkit-google-extension/commit/e9b42f6531d01fd0c713539e25711f25a86d2b8d))
+- trim redundant comments in gitlab-mirror workflow ([9398534](https://github.com/somaz94/dev-toolkit-google-extension/commit/93985345ae7feb1a482b40e0ba85e649ab12bda0))
+- retry mirror pushes on transient remote failures ([7499d06](https://github.com/somaz94/dev-toolkit-google-extension/commit/7499d06adb89ac354dc2bf4e743b3da23399c570))
+- drop the dead issue-close trigger from changelog generation ([8e1b290](https://github.com/somaz94/dev-toolkit-google-extension/commit/8e1b2905bd8b175a28f61f1172b8fecee660ec49))
+- remove DCO workflow ([cebcea3](https://github.com/somaz94/dev-toolkit-google-extension/commit/cebcea354b0875e66e5e0afc64938d2ada21d344))
+- adopt semantic-pr, labels, lock-threads, PR size, and auto-assign reusables ([3681eac](https://github.com/somaz94/dev-toolkit-google-extension/commit/3681eac395a9e1ed03485eb00458020b6be0d2bf))
+- use reusable stale-issues workflow ([403db70](https://github.com/somaz94/dev-toolkit-google-extension/commit/403db702c41aa202389622a72425ad5f7dfe5c79))
+- use reusable issue-greeting workflow ([3f195ef](https://github.com/somaz94/dev-toolkit-google-extension/commit/3f195ef0b9abeba577b559cb25613cfc95dc8015))
+- use reusable contributors workflow ([4f32aab](https://github.com/somaz94/dev-toolkit-google-extension/commit/4f32aabcf7de19b265cbb3401110e7dc2dd7583b))
+- add ok-to-test workflow stub ([c9f264b](https://github.com/somaz94/dev-toolkit-google-extension/commit/c9f264b12f3d48cfc0f3c06e9af3451dc3350c26))
+- add PR welcome workflow stub ([5abcd59](https://github.com/somaz94/dev-toolkit-google-extension/commit/5abcd598260bd36f63d9b5b99b158451a0556fdb))
+- add DCO check via shared reusable workflow ([bfa14fd](https://github.com/somaz94/dev-toolkit-google-extension/commit/bfa14fd372a33d5f713331648f9872e8469153c3))
+- add concurrency guards to recurring workflows ([31e7a9a](https://github.com/somaz94/dev-toolkit-google-extension/commit/31e7a9a6eef5c046fd6fc32496bf8f3f699adab7))
+- skip auto-generated changelog and contributors commits in release notes ([44b9a66](https://github.com/somaz94/dev-toolkit-google-extension/commit/44b9a66492b130558fdf23382bd0f3dc15f9c074))
+- add git-cliff for auto-generated release notes ([81a1f2d](https://github.com/somaz94/dev-toolkit-google-extension/commit/81a1f2da2a66f3c692793a71e5fe551991b0312d))
+- revert to body_path RELEASE.md in release workflow ([7ef2791](https://github.com/somaz94/dev-toolkit-google-extension/commit/7ef27914bd4ac77f182bc9c1cefb446a76420750))
+
+### Chores
+
+- bump version to 1.2.0 ([292eff8](https://github.com/somaz94/dev-toolkit-google-extension/commit/292eff8ee01c4620a6629ce2ecb6a1083ba37dac))
+- credit somaz94 as the author ([f58666f](https://github.com/somaz94/dev-toolkit-google-extension/commit/f58666f67f04fe2bea1c7beba545d1689c45e22f))
+- remove duplicate rules from CLAUDE.md (moved to global) ([dc3f9b0](https://github.com/somaz94/dev-toolkit-google-extension/commit/dc3f9b0a17f00b693356aa15ea499df93b15ae7f))
+- add git config protection to CLAUDE.md ([a75a373](https://github.com/somaz94/dev-toolkit-google-extension/commit/a75a3738584acd7414bf078713a34f5eafb34d4c))
+
+### Contributors
+
+- somaz
+
+<br/>
+
 ## [v1.1.0](https://github.com/somaz94/dev-toolkit-google-extension/releases/tag/v1.1.0) (2026-03-24)
 
 ### Features
