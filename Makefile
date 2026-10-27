@@ -1,4 +1,4 @@
-.PHONY: help install test test-cover lint lint-fix package version bump-version clean
+.PHONY: help install test test-cover lint lint-fix package icons version bump-version clean
 
 # Default target
 help: ## Show available commands
@@ -40,6 +40,9 @@ package: clean ## Package extension into ZIP for Chrome Web Store
 	@echo ""
 	@echo "  ✓ dist/dev-toolkit.zip created"
 	@ls -lh dist/dev-toolkit.zip
+
+icons: ## Redraw icons/icon{16,48,128}.png (needs ImageMagick)
+	@hack/render-icons.sh
 
 clean: ## Remove build artifacts
 	rm -rf dist/
