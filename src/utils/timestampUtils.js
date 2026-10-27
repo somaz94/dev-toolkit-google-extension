@@ -1,3 +1,5 @@
+import { t } from '../i18n.js';
+
 /**
  * Convert Unix timestamp to human-readable date string
  * Supports seconds (10 digits) and milliseconds (13 digits)
@@ -7,7 +9,7 @@ export function timestampToDate(input) {
   let ts = Number(trimmed);
 
   if (isNaN(ts)) {
-    throw new Error('Invalid timestamp. Enter a numeric value.');
+    throw new Error(t('timestampNotNumeric'));
   }
 
   // Auto-detect: if 13+ digits, treat as milliseconds
@@ -19,7 +21,7 @@ export function timestampToDate(input) {
 
   const date = new Date(ts);
   if (isNaN(date.getTime())) {
-    throw new Error('Invalid timestamp value.');
+    throw new Error(t('timestampOutOfRange'));
   }
 
   const utc = date.toISOString();
@@ -36,7 +38,12 @@ export function timestampToDate(input) {
 
   const utcFormatted = utc.replace('T', ' ').replace('Z', ' UTC');
 
-  return `UTC:   ${utcFormatted}\nLocal: ${local}\n\nSeconds:      ${Math.floor(ts / 1000)}\nMilliseconds: ${ts}`;
+  return [
+    t('resultUtc', utcFormatted),
+    t('resultLocal', local),
+    '',
+    secondsAndMilliseconds(ts),
+  ].join('\n');
 }
 
 /**
@@ -48,16 +55,17 @@ export function dateToTimestamp(input) {
 
   if (trimmed.toLowerCase() === 'now') {
     const now = Date.now();
-    return `Seconds:      ${Math.floor(now / 1000)}\nMilliseconds: ${now}`;
+    return secondsAndMilliseconds(now);
   }
 
   const date = new Date(trimmed);
   if (isNaN(date.getTime())) {
-    throw new Error('Invalid date format. Try: 2026-03-24, 2026-03-24T12:00:00Z, or "now"');
+    throw new Error(t('dateInvalid'));
   }
 
-  const ms = date.getTime();
-  const sec = Math.floor(ms / 1000);
+  return secondsAndMilliseconds(date.getTime());
+}
 
-  return `Seconds:      ${sec}\nMilliseconds: ${ms}`;
+function secondsAndMilliseconds(ms) {
+  return [t('resultSeconds', String(Math.floor(ms / 1000))), t('resultMilliseconds', String(ms))].join('\n');
 }

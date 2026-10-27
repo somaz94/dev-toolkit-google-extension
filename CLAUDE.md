@@ -16,6 +16,7 @@
 ## Key Directories
 
 - `src/popup/` — UI (popup.html, popup.js, popup.css)
+- `_locales/` — UI text per language (en default, ko); `src/i18n.js` looks it up
 - `src/utils/` — Utility modules (jsonFormatter, base64Utils, jwtDecoder, jwtEncoder, urlUtils, timestampUtils, hashUtils, uuidUtils, colorUtils, diffUtils, validator)
 - `tests/` — Unit tests (Jest)
 - `hack/` — Scripts (bump-version.sh)

@@ -10,6 +10,8 @@
  *   my-secret-key
  */
 
+import { t } from '../i18n.js';
+
 function base64UrlEncode(str) {
   return btoa(str)
     .replace(/=/g, '')
@@ -55,6 +57,6 @@ export async function encodeJWT(input) {
 
     return `${signingInput}.${signature}`;
   } catch (e) {
-    return { error: 'Failed to encode JWT: ' + e.message };
+    return { error: t('jwtEncodeFailed', e.message) };
   }
 }

@@ -3,6 +3,8 @@
  * Auto-detects input format and converts to all formats
  */
 
+import { t } from '../i18n.js';
+
 function hexToRgb(hex) {
   hex = hex.replace('#', '');
   if (hex.length === 3) {
@@ -110,7 +112,7 @@ export function convertColor(input) {
   const parsed = parseInput(input);
 
   if (!parsed) {
-    throw new Error('Invalid color format.\nSupported: #ff0000, rgb(255,0,0), hsl(0,100,50)');
+    throw new Error(t('colorInvalid'));
   }
 
   let r, g, b, h, s, l, hex;

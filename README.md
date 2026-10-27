@@ -59,6 +59,9 @@ Zero dependencies. Zero permissions. Manifest V3.
 - Toggle between light and dark themes
 - Persistent theme preference
 
+### Languages
+- English and Korean, following the browser language
+
 ### Keyboard Shortcuts
 - `Ctrl+Enter` — Execute conversion
 - `Ctrl+Shift+C` — Copy result
@@ -210,7 +213,9 @@ Output:
 dev-toolkit-google-extension/
 ├── manifest.json              # Chrome extension config (Manifest V3)
 ├── Makefile                   # Build, test, package commands
+├── _locales/                  # UI text per language (en, ko)
 ├── src/
+│   ├── i18n.js                # Looks up UI text and fills the popup
 │   ├── popup/
 │   │   ├── popup.html         # UI markup
 │   │   ├── popup.js           # Event handling & orchestration

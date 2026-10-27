@@ -3,6 +3,8 @@
  * Compares two texts separated by a delimiter
  */
 
+import { t } from '../i18n.js';
+
 export function computeDiff(input) {
   // Split input by delimiter: --- or ===
   const separators = ['---', '==='];
@@ -20,13 +22,7 @@ export function computeDiff(input) {
   }
 
   if (!parts) {
-    throw new Error(
-      'Separate two texts with --- or === on its own line.\n\n' +
-      'Example:\n' +
-      'first text here\n' +
-      '---\n' +
-      'second text here'
-    );
+    throw new Error(t('diffNoSeparator'));
   }
 
   const linesA = parts[0].split('\n');
@@ -57,7 +53,7 @@ export function computeDiff(input) {
     }
   }
 
-  const summary = `[Summary] +${added} added, -${removed} removed, ${unchanged} unchanged`;
+  const summary = t('diffSummary', [String(added), String(removed), String(unchanged)]);
 
   return summary + '\n' + '─'.repeat(50) + '\n' + result.join('\n');
 }

@@ -1,0 +1,200 @@
+{
+  "htmlLang": {
+    "message": "en"
+  },
+  "extDescription": {
+    "message": "Developer toolkit for JSON, Base64, JWT, and URL encoding/decoding"
+  },
+  "tabTime": {
+    "message": "Time"
+  },
+  "tabHash": {
+    "message": "Hash"
+  },
+  "tabColor": {
+    "message": "Color"
+  },
+  "tabDiff": {
+    "message": "Diff"
+  },
+  "modeEncode": {
+    "message": "Encode"
+  },
+  "modeDecode": {
+    "message": "Decode"
+  },
+  "modeToTimestamp": {
+    "message": "To Timestamp"
+  },
+  "modeToDate": {
+    "message": "To Date"
+  },
+  "indent2": {
+    "message": "2 spaces"
+  },
+  "indent4": {
+    "message": "4 spaces"
+  },
+  "indentTab": {
+    "message": "Tab"
+  },
+  "minify": {
+    "message": "Minify"
+  },
+  "inputPlaceholder": {
+    "message": "Enter your text here..."
+  },
+  "outputPlaceholder": {
+    "message": "Result will appear here..."
+  },
+  "copy": {
+    "message": "Copy"
+  },
+  "clear": {
+    "message": "Clear"
+  },
+  "copied": {
+    "message": "Copied to clipboard!"
+  },
+  "actionFormatJson": {
+    "message": "Format JSON"
+  },
+  "actionGenerateHash": {
+    "message": "Generate Hash"
+  },
+  "actionGenerateUuid": {
+    "message": "Generate UUID"
+  },
+  "actionConvertColor": {
+    "message": "Convert Color"
+  },
+  "actionCompare": {
+    "message": "Compare"
+  },
+  "actionEncodeBase64": {
+    "message": "Encode Base64"
+  },
+  "actionDecodeBase64": {
+    "message": "Decode Base64"
+  },
+  "actionEncodeJwt": {
+    "message": "Encode JWT"
+  },
+  "actionDecodeJwt": {
+    "message": "Decode JWT"
+  },
+  "actionEncodeUrl": {
+    "message": "Encode URL"
+  },
+  "actionDecodeUrl": {
+    "message": "Decode URL"
+  },
+  "actionDateToTimestamp": {
+    "message": "Date → Timestamp"
+  },
+  "actionTimestampToDate": {
+    "message": "Timestamp → Date"
+  },
+  "placeholderDate": {
+    "message": "Enter date: 2026-03-24, 2026-03-24T12:00:00Z, or \"now\""
+  },
+  "placeholderTimestamp": {
+    "message": "Enter Unix timestamp: 1711270800 or 1711270800000"
+  },
+  "placeholderHash": {
+    "message": "Enter text to generate hash..."
+  },
+  "placeholderUuid": {
+    "message": "Enter count (1-100) or leave empty for 1 UUID"
+  },
+  "placeholderColor": {
+    "message": "#ff0000, rgb(255,0,0), or hsl(0,100,50)"
+  },
+  "placeholderDiff": {
+    "message": "Enter two texts separated by --- on its own line:\n\nfirst text\n---\nsecond text"
+  },
+  "errorEmpty": {
+    "message": "Input is empty."
+  },
+  "errorTooLarge": {
+    "message": "Input too large. Maximum 5MB allowed."
+  },
+  "errorUnexpected": {
+    "message": "An error occurred: $1"
+  },
+  "errorLine": {
+    "message": "❌ Error: $1"
+  },
+  "jsonError": {
+    "message": "Error: $1"
+  },
+  "base64EncodeInvalid": {
+    "message": "Invalid input for Base64 encoding"
+  },
+  "base64DecodeInvalid": {
+    "message": "Invalid Base64 string"
+  },
+  "urlEncodeInvalid": {
+    "message": "Invalid input for URL encoding"
+  },
+  "urlDecodeInvalid": {
+    "message": "Invalid URL encoded string"
+  },
+  "jwtInvalid": {
+    "message": "Invalid JWT token"
+  },
+  "jwtEncodeFailed": {
+    "message": "Failed to encode JWT: $1"
+  },
+  "colorInvalid": {
+    "message": "Invalid color format.\nSupported: #ff0000, rgb(255,0,0), hsl(0,100,50)"
+  },
+  "diffNoSeparator": {
+    "message": "Separate two texts with --- or === on its own line.\n\nExample:\nfirst text here\n---\nsecond text here"
+  },
+  "diffSummary": {
+    "message": "[Summary] +$1 added, -$2 removed, $3 unchanged"
+  },
+  "timestampNotNumeric": {
+    "message": "Invalid timestamp. Enter a numeric value."
+  },
+  "timestampOutOfRange": {
+    "message": "Invalid timestamp value."
+  },
+  "dateInvalid": {
+    "message": "Invalid date format. Try: 2026-03-24, 2026-03-24T12:00:00Z, or \"now\""
+  },
+  "resultUtc": {
+    "message": "UTC:   $1"
+  },
+  "resultLocal": {
+    "message": "Local: $1"
+  },
+  "resultSeconds": {
+    "message": "Seconds:      $1"
+  },
+  "resultMilliseconds": {
+    "message": "Milliseconds: $1"
+  },
+  "uuidCountInvalid": {
+    "message": "Enter a number (1-100) for how many UUIDs to generate."
+  },
+  "uuidCountTooLarge": {
+    "message": "Maximum 100 UUIDs at a time."
+  },
+  "validateJson": {
+    "message": "Invalid JSON format.\n$1"
+  },
+  "validateBase64": {
+    "message": "Invalid Base64 format."
+  },
+  "validateJwt": {
+    "message": "Invalid JWT format.\nExpected: header.payload.signature"
+  },
+  "validateJwtPayload": {
+    "message": "Invalid JSON format for JWT payload.\n$1"
+  },
+  "validateUrl": {
+    "message": "Invalid URL format.\nExample: https://example.com"
+  }
+}

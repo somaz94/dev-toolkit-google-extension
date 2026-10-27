@@ -9,8 +9,11 @@ import { generateUUID } from '../utils/uuidUtils.js';
 import { convertColor } from '../utils/colorUtils.js';
 import { computeDiff } from '../utils/diffUtils.js';
 import { validateInput } from '../utils/validator.js';
+import { applyTranslations, t } from '../i18n.js';
 
 document.addEventListener('DOMContentLoaded', () => {
+  applyTranslations();
+
   const inputArea = document.getElementById('input');
   const outputArea = document.getElementById('output');
   const formatBtn = document.getElementById('format');
@@ -65,7 +68,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // 탭 전환 처리
   tabs.forEach(tab => {
     tab.addEventListener('click', () => {
-      tabs.forEach(t => t.classList.remove('active'));
+      tabs.forEach(other => other.classList.remove('active'));
       tab.classList.add('active');
       currentTab = tab.dataset.tab;
       
@@ -75,29 +78,29 @@ document.addEventListener('DOMContentLoaded', () => {
 
       if (currentTab === 'json') {
         modeSelector.classList.remove('visible');
-        formatBtn.textContent = 'Format JSON';
+        formatBtn.textContent = t('actionFormatJson');
       } else if (currentTab === 'hash') {
         modeSelector.classList.remove('visible');
-        formatBtn.textContent = 'Generate Hash';
+        formatBtn.textContent = t('actionGenerateHash');
       } else if (currentTab === 'uuid') {
         modeSelector.classList.remove('visible');
-        formatBtn.textContent = 'Generate UUID';
+        formatBtn.textContent = t('actionGenerateUuid');
       } else if (currentTab === 'color') {
         modeSelector.classList.remove('visible');
-        formatBtn.textContent = 'Convert Color';
+        formatBtn.textContent = t('actionConvertColor');
       } else if (currentTab === 'diff') {
         modeSelector.classList.remove('visible');
-        formatBtn.textContent = 'Compare';
+        formatBtn.textContent = t('actionCompare');
       } else if (currentTab === 'timestamp') {
         modeSelector.classList.add('visible');
         // timestamp 탭: encode = Date→Timestamp, decode = Timestamp→Date
-        modeBtns[0].textContent = 'To Timestamp';
-        modeBtns[1].textContent = 'To Date';
+        modeBtns[0].textContent = t('modeToTimestamp');
+        modeBtns[1].textContent = t('modeToDate');
         updateButtonText();
       } else {
         modeSelector.classList.add('visible');
-        modeBtns[0].textContent = 'Encode';
-        modeBtns[1].textContent = 'Decode';
+        modeBtns[0].textContent = t('modeEncode');
+        modeBtns[1].textContent = t('modeDecode');
         updateButtonText();
       }
       
@@ -121,13 +124,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const input = inputArea.value;
     
     if (!input.trim() && currentTab !== 'uuid') {
-      showError('Input is empty.');
+      showError(t('errorEmpty'));
       return;
     }
 
     // 대용량 입력 제한 (5MB)
     if (input.length > 5 * 1024 * 1024) {
-      showError('Input too large. Maximum 5MB allowed.');
+      showError(t('errorTooLarge'));
       return;
     }
 
@@ -211,7 +214,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
       clearError();
     } catch (error) {
-      showError(`An error occurred: ${error.message}`);
+      showError(t('errorUnexpected', error.message));
     }
   });
 
@@ -222,7 +225,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     try {
       await navigator.clipboard.writeText(textToCopy);
-      showToast('Copied to clipboard!');
+      showToast(t('copied'));
     } catch (err) {
       console.error('Failed to copy text: ', err);
     }
@@ -232,7 +235,7 @@ document.addEventListener('DOMContentLoaded', () => {
   minifyBtn.addEventListener('click', () => {
     const input = inputArea.value;
     if (!input.trim()) {
-      showError('Input is empty.');
+      showError(t('errorEmpty'));
       return;
     }
     try {
@@ -271,16 +274,16 @@ document.addEventListener('DOMContentLoaded', () => {
   function updateButtonText() {
     switch (currentTab) {
       case 'base64':
-        formatBtn.textContent = currentMode === 'encode' ? 'Encode Base64' : 'Decode Base64';
+        formatBtn.textContent = currentMode === 'encode' ? t('actionEncodeBase64') : t('actionDecodeBase64');
         break;
       case 'jwt':
-        formatBtn.textContent = currentMode === 'encode' ? 'Encode JWT' : 'Decode JWT';
+        formatBtn.textContent = currentMode === 'encode' ? t('actionEncodeJwt') : t('actionDecodeJwt');
         break;
       case 'url':
-        formatBtn.textContent = currentMode === 'encode' ? 'Encode URL' : 'Decode URL';
+        formatBtn.textContent = currentMode === 'encode' ? t('actionEncodeUrl') : t('actionDecodeUrl');
         break;
       case 'timestamp':
-        formatBtn.textContent = currentMode === 'encode' ? 'Date → Timestamp' : 'Timestamp → Date';
+        formatBtn.textContent = currentMode === 'encode' ? t('actionDateToTimestamp') : t('actionTimestampToDate');
         break;
     }
   }
@@ -294,24 +297,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function updatePlaceholder() {
     if (currentTab === 'timestamp') {
-      inputArea.placeholder = currentMode === 'encode'
-        ? 'Enter date: 2026-03-24, 2026-03-24T12:00:00Z, or "now"'
-        : 'Enter Unix timestamp: 1711270800 or 1711270800000';
+      inputArea.placeholder = currentMode === 'encode' ? t('placeholderDate') : t('placeholderTimestamp');
     } else if (currentTab === 'hash') {
-      inputArea.placeholder = 'Enter text to generate hash...';
+      inputArea.placeholder = t('placeholderHash');
     } else if (currentTab === 'uuid') {
-      inputArea.placeholder = 'Enter count (1-100) or leave empty for 1 UUID';
+      inputArea.placeholder = t('placeholderUuid');
     } else if (currentTab === 'color') {
-      inputArea.placeholder = '#ff0000, rgb(255,0,0), or hsl(0,100,50)';
+      inputArea.placeholder = t('placeholderColor');
     } else if (currentTab === 'diff') {
-      inputArea.placeholder = 'Enter two texts separated by --- on its own line:\n\nfirst text\n---\nsecond text';
+      inputArea.placeholder = t('placeholderDiff');
     } else {
-      inputArea.placeholder = 'Enter your text here...';
+      inputArea.placeholder = t('inputPlaceholder');
     }
   }
 
   function showError(message) {
-    outputArea.value = `❌ Error: ${message}`;
+    outputArea.value = t('errorLine', message);
     outputArea.classList.add('error');
   }
 

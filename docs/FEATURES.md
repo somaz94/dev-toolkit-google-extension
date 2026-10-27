@@ -17,6 +17,7 @@ Detailed description of all tools available in Dev Toolkit.
 - [Diff Viewer](#diff-viewer)
 - [Dark Mode](#dark-mode)
 - [Keyboard Shortcuts](#keyboard-shortcuts)
+- [Languages](#languages)
 
 <br/>
 
@@ -285,3 +286,10 @@ Toggle between light and dark themes.
 - Last 5 inputs per tab are saved in `localStorage`
 - Automatically restored when switching tabs
 - Clear button resets without restoring history
+
+<br/>
+
+## Languages
+
+- English and Korean, following the browser language (Chrome's `_locales`); any other language shows English
+- Tool names and formats (JSON, Base64, JWT, URL, UUID, HEX/RGB/HSL, SHA-*) stay as they are in every language

@@ -3,6 +3,8 @@
  * Also supports generating multiple UUIDs at once
  */
 
+import { t } from '../i18n.js';
+
 export function generateUUID(input) {
   const trimmed = input.trim();
   let count = 1;
@@ -10,10 +12,10 @@ export function generateUUID(input) {
   if (trimmed) {
     count = parseInt(trimmed, 10);
     if (isNaN(count) || count < 1) {
-      throw new Error('Enter a number (1-100) for how many UUIDs to generate.');
+      throw new Error(t('uuidCountInvalid'));
     }
     if (count > 100) {
-      throw new Error('Maximum 100 UUIDs at a time.');
+      throw new Error(t('uuidCountTooLarge'));
     }
   }
 

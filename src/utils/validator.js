@@ -1,6 +1,8 @@
+import { t } from '../i18n.js';
+
 export function validateInput(input, type) {
   if (!input || !input.trim()) {
-    return { isValid: false, error: 'Input is empty.' };
+    return { isValid: false, error: t('errorEmpty') };
   }
 
   switch (type) {
@@ -11,7 +13,7 @@ export function validateInput(input, type) {
       } catch (e) {
         return { 
           isValid: false, 
-          error: 'Invalid JSON format.\n' + e.message 
+          error: t('validateJson', e.message)
         };
       }
 
@@ -20,7 +22,7 @@ export function validateInput(input, type) {
       if (!base64Regex.test(input)) {
         return { 
           isValid: false, 
-          error: 'Invalid Base64 format.' 
+          error: t('validateBase64')
         };
       }
       return { isValid: true };
@@ -31,7 +33,7 @@ export function validateInput(input, type) {
         if (!jwtRegex.test(input)) {
           return { 
             isValid: false, 
-            error: 'Invalid JWT format.\nExpected: header.payload.signature' 
+            error: t('validateJwt')
           };
         }
       } else {
@@ -41,7 +43,7 @@ export function validateInput(input, type) {
         } catch (e) {
           return {
             isValid: false,
-            error: 'Invalid JSON format for JWT payload.\n' + e.message
+            error: t('validateJwtPayload', e.message)
           };
         }
       }
@@ -55,7 +57,7 @@ export function validateInput(input, type) {
         } catch (e) {
           return { 
             isValid: false, 
-            error: 'Invalid URL format.\nExample: https://example.com' 
+            error: t('validateUrl')
           };
         }
       }

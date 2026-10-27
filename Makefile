@@ -31,6 +31,7 @@ package: clean ## Package extension into ZIP for Chrome Web Store
 	@mkdir -p dist
 	zip -r dist/dev-toolkit.zip \
 		manifest.json \
+		_locales/ \
 		src/ \
 		icons/ \
 		LICENSE \

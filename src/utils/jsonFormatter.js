@@ -1,3 +1,5 @@
+import { t } from '../i18n.js';
+
 export function formatJSON(input, indent = 2) {
   try {
     if (!input.trim()) {
@@ -7,7 +9,7 @@ export function formatJSON(input, indent = 2) {
     const space = indent === 'tab' ? '\t' : indent;
     return JSON.stringify(parsed, null, space);
   } catch (e) {
-    return `Error: ${e.message}`;
+    return t('jsonError', e.message);
   }
 }
 
@@ -19,7 +21,7 @@ export function minifyJSON(input) {
     const parsed = JSON.parse(input);
     return JSON.stringify(parsed);
   } catch (e) {
-    return `Error: ${e.message}`;
+    return t('jsonError', e.message);
   }
 }
 

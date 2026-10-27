@@ -1,3 +1,5 @@
+import { t } from '../i18n.js';
+
 export function decodeJWT(token) {
   try {
     // JWT 토큰 파트 분리
@@ -14,7 +16,7 @@ export function decodeJWT(token) {
     };
   } catch (e) {
     return {
-      error: "Invalid JWT token"
+      error: t('jwtInvalid')
     };
   }
 }

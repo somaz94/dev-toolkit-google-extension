@@ -10,6 +10,7 @@ Guide for developing, testing, and publishing Dev Toolkit.
 - [Project Structure](#project-structure)
 - [Local Development](#local-development)
 - [Adding a New Tool](#adding-a-new-tool)
+- [Translations](#translations)
 - [Chrome Web Store Publishing](#chrome-web-store-publishing)
 - [CI/CD Workflows](#cicd-workflows)
 - [Conventions](#conventions)
@@ -29,7 +30,9 @@ Guide for developing, testing, and publishing Dev Toolkit.
 ```
 dev-toolkit-google-extension/
 ├── manifest.json              # Chrome extension config (Manifest V3)
+├── _locales/                  # UI text per language (en, ko)
 ├── src/
+│   ├── i18n.js                # Looks up UI text and fills the popup
 │   ├── popup/
 │   │   ├── popup.html         # UI markup (tabs, buttons, textareas)
 │   │   ├── popup.js           # Event handling & orchestration
@@ -108,11 +111,22 @@ After editing files:
    - Add case in `formatBtn` click handler
    - Add case in `updateButtonText()`
 
-4. **Add validation** in `src/utils/validator.js` if needed
+4. **Add validation** in `src/utils/validator.js` if needed. Every message a user sees goes through `t()`; see [Translations](#translations)
 
 5. **Add tests** in `tests/myTool.test.js`
 
 6. **Update docs** (README.md, FEATURES.md, DEVELOPMENT.md)
+
+<br/>
+
+## Translations
+
+The popup follows the browser language through Chrome's `_locales`: English is the default, Korean is in `_locales/ko/`.
+
+- A string is a key in `_locales/en/messages.json` and in every other `_locales/<language>/messages.json`, written as `{ "message": "..." }`. Positional values are `$1` to `$9`
+- In HTML, set `data-i18n="key"` for text or `data-i18n-placeholder` / `data-i18n-title` / `data-i18n-aria-label` for attributes; in JavaScript, call `t('key')` or `t('key', [value])` from `src/i18n.js`
+- `tests/locales.test.js` fails when a language misses a key, a placeholder differs, a key the code names does not exist, or a key is no longer used
+- In Jest, `tests/setup/chrome-i18n.cjs` serves the English catalog as `chrome.i18n`, so tests assert the English text
 
 <br/>
 
@@ -162,6 +176,7 @@ make clean               # Remove build artifacts
 # Create ZIP file (exclude unnecessary files)
 zip -r dev-toolkit.zip \
   manifest.json \
+  _locales/ \
   src/ \
   icons/ \
   LICENSE \
@@ -181,7 +196,7 @@ zip -r dev-toolkit.zip \
    - Screenshots (at least 1, 1280x800 or 640x400)
    - Icons (128x128 required)
    - Category: Developer Tools
-   - Language: English
+   - Language: English, plus a Korean listing (the package ships `_locales/ko`)
 5. Click **Submit for Review**
 6. Review typically takes 1-3 business days
 

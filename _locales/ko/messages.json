@@ -1,0 +1,200 @@
+{
+  "htmlLang": {
+    "message": "ko"
+  },
+  "extDescription": {
+    "message": "JSON, Base64, JWT, URL을 인코딩하고 디코딩하는 개발자 도구 모음"
+  },
+  "tabTime": {
+    "message": "시간"
+  },
+  "tabHash": {
+    "message": "해시"
+  },
+  "tabColor": {
+    "message": "색상"
+  },
+  "tabDiff": {
+    "message": "비교"
+  },
+  "modeEncode": {
+    "message": "인코딩"
+  },
+  "modeDecode": {
+    "message": "디코딩"
+  },
+  "modeToTimestamp": {
+    "message": "타임스탬프로"
+  },
+  "modeToDate": {
+    "message": "날짜로"
+  },
+  "indent2": {
+    "message": "공백 2칸"
+  },
+  "indent4": {
+    "message": "공백 4칸"
+  },
+  "indentTab": {
+    "message": "탭"
+  },
+  "minify": {
+    "message": "압축"
+  },
+  "inputPlaceholder": {
+    "message": "여기에 텍스트를 입력하세요..."
+  },
+  "outputPlaceholder": {
+    "message": "결과가 여기에 표시됩니다..."
+  },
+  "copy": {
+    "message": "복사"
+  },
+  "clear": {
+    "message": "지우기"
+  },
+  "copied": {
+    "message": "클립보드에 복사했습니다!"
+  },
+  "actionFormatJson": {
+    "message": "JSON 포맷"
+  },
+  "actionGenerateHash": {
+    "message": "해시 생성"
+  },
+  "actionGenerateUuid": {
+    "message": "UUID 생성"
+  },
+  "actionConvertColor": {
+    "message": "색상 변환"
+  },
+  "actionCompare": {
+    "message": "비교"
+  },
+  "actionEncodeBase64": {
+    "message": "Base64 인코딩"
+  },
+  "actionDecodeBase64": {
+    "message": "Base64 디코딩"
+  },
+  "actionEncodeJwt": {
+    "message": "JWT 인코딩"
+  },
+  "actionDecodeJwt": {
+    "message": "JWT 디코딩"
+  },
+  "actionEncodeUrl": {
+    "message": "URL 인코딩"
+  },
+  "actionDecodeUrl": {
+    "message": "URL 디코딩"
+  },
+  "actionDateToTimestamp": {
+    "message": "날짜 → 타임스탬프"
+  },
+  "actionTimestampToDate": {
+    "message": "타임스탬프 → 날짜"
+  },
+  "placeholderDate": {
+    "message": "날짜를 입력하세요: 2026-03-24, 2026-03-24T12:00:00Z 또는 \"now\""
+  },
+  "placeholderTimestamp": {
+    "message": "Unix 타임스탬프를 입력하세요: 1711270800 또는 1711270800000"
+  },
+  "placeholderHash": {
+    "message": "해시를 만들 텍스트를 입력하세요..."
+  },
+  "placeholderUuid": {
+    "message": "만들 개수(1~100)를 입력하세요. 비워 두면 UUID 1개를 만듭니다"
+  },
+  "placeholderColor": {
+    "message": "#ff0000, rgb(255,0,0) 또는 hsl(0,100,50)"
+  },
+  "placeholderDiff": {
+    "message": "두 텍스트 사이에 --- 한 줄을 넣어 입력하세요:\n\n첫 번째 텍스트\n---\n두 번째 텍스트"
+  },
+  "errorEmpty": {
+    "message": "입력이 비어 있습니다."
+  },
+  "errorTooLarge": {
+    "message": "입력이 너무 큽니다. 최대 5MB까지 입력할 수 있습니다."
+  },
+  "errorUnexpected": {
+    "message": "오류가 발생했습니다: $1"
+  },
+  "errorLine": {
+    "message": "❌ 오류: $1"
+  },
+  "jsonError": {
+    "message": "오류: $1"
+  },
+  "base64EncodeInvalid": {
+    "message": "Base64로 인코딩할 수 없는 입력입니다"
+  },
+  "base64DecodeInvalid": {
+    "message": "올바른 Base64 문자열이 아닙니다"
+  },
+  "urlEncodeInvalid": {
+    "message": "URL로 인코딩할 수 없는 입력입니다"
+  },
+  "urlDecodeInvalid": {
+    "message": "올바른 URL 인코딩 문자열이 아닙니다"
+  },
+  "jwtInvalid": {
+    "message": "올바른 JWT 토큰이 아닙니다"
+  },
+  "jwtEncodeFailed": {
+    "message": "JWT를 인코딩하지 못했습니다: $1"
+  },
+  "colorInvalid": {
+    "message": "색상 형식이 올바르지 않습니다.\n지원 형식: #ff0000, rgb(255,0,0), hsl(0,100,50)"
+  },
+  "diffNoSeparator": {
+    "message": "두 텍스트 사이에 --- 또는 === 한 줄을 넣으세요.\n\n예:\n첫 번째 텍스트\n---\n두 번째 텍스트"
+  },
+  "diffSummary": {
+    "message": "[요약] 추가 +$1, 삭제 -$2, 변경 없음 $3"
+  },
+  "timestampNotNumeric": {
+    "message": "올바른 타임스탬프가 아닙니다. 숫자를 입력하세요."
+  },
+  "timestampOutOfRange": {
+    "message": "타임스탬프 값이 올바르지 않습니다."
+  },
+  "dateInvalid": {
+    "message": "날짜 형식이 올바르지 않습니다. 예: 2026-03-24, 2026-03-24T12:00:00Z 또는 \"now\""
+  },
+  "resultUtc": {
+    "message": "UTC:  $1"
+  },
+  "resultLocal": {
+    "message": "로컬: $1"
+  },
+  "resultSeconds": {
+    "message": "초:     $1"
+  },
+  "resultMilliseconds": {
+    "message": "밀리초: $1"
+  },
+  "uuidCountInvalid": {
+    "message": "만들 UUID 개수를 1~100 사이 숫자로 입력하세요."
+  },
+  "uuidCountTooLarge": {
+    "message": "UUID는 한 번에 최대 100개까지 만들 수 있습니다."
+  },
+  "validateJson": {
+    "message": "JSON 형식이 올바르지 않습니다.\n$1"
+  },
+  "validateBase64": {
+    "message": "Base64 형식이 올바르지 않습니다."
+  },
+  "validateJwt": {
+    "message": "JWT 형식이 올바르지 않습니다.\n필요한 형식: header.payload.signature"
+  },
+  "validateJwtPayload": {
+    "message": "JWT payload의 JSON 형식이 올바르지 않습니다.\n$1"
+  },
+  "validateUrl": {
+    "message": "URL 형식이 올바르지 않습니다.\n예: https://example.com"
+  }
+}
