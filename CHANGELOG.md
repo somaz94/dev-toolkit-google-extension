@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file.
 
+## [v1.2.1](https://github.com/somaz94/dev-toolkit-google-extension/compare/v1.2.0...v1.2.1) (2026-10-27)
+
+### Bug Fixes
+
+- redraw the blurry icon from a 512px master ([c037254](https://github.com/somaz94/dev-toolkit-google-extension/commit/c037254ac59b80d42815436c1662fe34f5813a30))
+
+### Chores
+
+- bump version to 1.2.1 ([ecb4d44](https://github.com/somaz94/dev-toolkit-google-extension/commit/ecb4d442873f80c0fd34b92f0998e6a00773e9e2))
+
+### Contributors
+
+- somaz
+
+<br/>
+
 ## [v1.2.0](https://github.com/somaz94/dev-toolkit-google-extension/compare/v1.1.0...v1.2.0) (2026-10-27)
 
 ### Features
