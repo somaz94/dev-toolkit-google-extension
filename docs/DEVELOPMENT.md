@@ -95,7 +95,7 @@ make package     # writes dist/dev-toolkit.zip
 
 Upload the ZIP in the [Chrome Web Store Developer Dashboard](https://chrome.google.com/webstore/devconsole). The listing text, the graphic assets, the Privacy tab answers and the reviewer test instructions are in [DESCRIPTION.md](DESCRIPTION.md); link [Privacy](PRIVACY.md) as the privacy policy. A tag push (`v*.*.*`) also builds the ZIP and attaches it to the GitHub release.
 
-`make store-screenshots` redraws `store/screenshots/` and `store/promo/` in English and Korean, in the same Chrome for Testing as the end-to-end test.
+`make store-screenshots` redraws `store/screenshots/` in English and Korean and the shared `store/promo-small.png`, in the same Chrome for Testing as the end-to-end test.
 
 <br/>
 

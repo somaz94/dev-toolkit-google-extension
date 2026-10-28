@@ -47,7 +47,7 @@ English is the default listing. The Korean listing uses [`store/listing-ko.txt`]
 
 ### Graphic assets
 
-Upload `store/screenshots/en/` to the default listing and `store/screenshots/ko/` as the Korean localized screenshots, in file order, and `store/promo/small-<language>.png` as the small promo tile of each. `make store-screenshots` redraws all of them from the extension itself (the inputs and the slide copy are in `hack/store-screenshots.mjs` and `hack/store-slide.html`); run it after a change to the popup.
+Upload `store/screenshots/en/` to the default listing and `store/screenshots/ko/` as the Korean localized screenshots, in file order, and `store/promo-small.png` as the small promo tile. The store localizes screenshots only; the promo tile is shared by every language, so it has English copy. `make store-screenshots` redraws all of them from the extension itself (the inputs and the slide copy are in `hack/store-screenshots.mjs` and `hack/store-slide.html`); run it after a change to the popup.
 
 ### Additional fields
 

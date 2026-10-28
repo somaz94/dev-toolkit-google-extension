@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 // Regenerates the Chrome Web Store images in store/: runs four tools in the popup in each language and lays
-// the captures out with hack/store-slide.html as 1280x800 screenshots plus the 440x280 small promo tile.
+// the captures out with hack/store-slide.html as 1280x800 screenshots, plus the 440x280 small promo tile. The store
+// takes localized screenshots but one promo tile for every language, so the tile is drawn in English only.
 import { copyFileSync, mkdirSync, mkdtempSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
@@ -9,6 +10,7 @@ import { launch, ORIGIN, ROOT } from './chrome.mjs';
 
 // The local-time line in the timestamp shot shows this zone.
 const LANGUAGES = { en: 'America/New_York', ko: 'Asia/Seoul' };
+const PROMO_LANGUAGE = 'en';
 
 // One popup capture per slide, in slide order. The mode is shared by every tab, as in the popup.
 const SHOTS = [
@@ -54,13 +56,14 @@ try {
         await slide.shoot(join(out, `${n + 1}.png`));
         await slide.close();
       }
-      const promoDir = join(ROOT, 'store', 'promo');
-      mkdirSync(promoDir, { recursive: true });
-      const promo = await browser.open(`file://${join(dir, 'slide.html')}?lang=${language}&promo`, { width: 440, height: 280 });
-      await sleep(500);
-      await promo.shoot(join(promoDir, `small-${language}.png`));
-      await promo.close();
-      console.log(`store/screenshots/${language}: ${SHOTS.length} screenshots, store/promo/small-${language}.png`);
+      console.log(`store/screenshots/${language}: ${SHOTS.length} screenshots`);
+      if (language === PROMO_LANGUAGE) {
+        const promo = await browser.open(`file://${join(dir, 'slide.html')}?lang=${language}&promo`, { width: 440, height: 280 });
+        await sleep(500);
+        await promo.shoot(join(ROOT, 'store', 'promo-small.png'));
+        await promo.close();
+        console.log('store/promo-small.png');
+      }
     } finally {
       await browser.close();
     }
