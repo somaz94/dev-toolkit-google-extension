@@ -5,14 +5,15 @@
   "type": "module",
   "description": "Developer toolkit Chrome extension",
   "scripts": {
-    "test": "node --experimental-vm-modules node_modules/.bin/jest",
-    "test:coverage": "node --experimental-vm-modules node_modules/.bin/jest --coverage",
-    "lint": "eslint src/",
-    "lint:fix": "eslint src/ --fix"
+    "test": "node --experimental-vm-modules node_modules/.bin/jest --maxWorkers=2",
+    "test:coverage": "node --experimental-vm-modules node_modules/.bin/jest --maxWorkers=2 --coverage",
+    "lint": "eslint src/ tests/",
+    "lint:fix": "eslint src/ tests/ --fix"
   },
   "devDependencies": {
-    "jest": "^29.7.0",
-    "@jest/globals": "^29.7.0",
-    "eslint": "^8.57.0"
+    "@eslint/js": "^10.0.0",
+    "@jest/globals": "^30.5.2",
+    "eslint": "^10.13.0",
+    "jest": "^30.5.2"
   }
 }

@@ -1,12 +1,9 @@
-.PHONY: help install test test-cover lint lint-fix package icons version bump-version clean
+.PHONY: help install test test-cover lint lint-fix package icons store-screenshots version bump-version clean
 
-# Default target
+PACKAGE := dist/dev-toolkit.zip
+
 help: ## Show available commands
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "  \033[36m%-20s\033[0m %s\n", $$1, $$2}'
-
-# ---------------------------------------------------------------------------
-# Development
-# ---------------------------------------------------------------------------
 
 install: ## Install dev dependencies (jest, eslint)
 	npm install --registry https://registry.npmjs.org
@@ -14,7 +11,7 @@ install: ## Install dev dependencies (jest, eslint)
 test: ## Run unit tests
 	npm test
 
-test-cover: ## Run tests with coverage report
+test-cover: ## Run tests with coverage (fails under 90%)
 	npm run test:coverage
 
 lint: ## Run ESLint
@@ -23,40 +20,28 @@ lint: ## Run ESLint
 lint-fix: ## Run ESLint with auto-fix
 	npm run lint:fix
 
-# ---------------------------------------------------------------------------
-# Packaging
-# ---------------------------------------------------------------------------
-
-package: clean ## Package extension into ZIP for Chrome Web Store
+package: clean ## Package the extension into a ZIP for the Chrome Web Store
 	@mkdir -p dist
-	zip -r dist/dev-toolkit.zip \
-		manifest.json \
-		_locales/ \
-		src/ \
-		icons/ \
-		LICENSE \
-		README.md \
-		-x "*.DS_Store"
+	zip -r $(PACKAGE) manifest.json _locales/ src/ icons/ LICENSE README.md -x "*.DS_Store"
 	@echo ""
-	@echo "  ✓ dist/dev-toolkit.zip created"
-	@ls -lh dist/dev-toolkit.zip
+	@echo "  ✓ $(PACKAGE) created"
+	@ls -lh $(PACKAGE)
 
 icons: ## Redraw icons/icon{16,48,128}.png (needs ImageMagick)
 	@hack/render-icons.sh
 
+store-screenshots: ## Redraw the Chrome Web Store images in store/ (Chrome for Testing)
+	node hack/store-screenshots.mjs
+
 clean: ## Remove build artifacts
 	rm -rf dist/
-
-# ---------------------------------------------------------------------------
-# Version management
-# ---------------------------------------------------------------------------
 
 version: ## Show current version
 	@hack/bump-version.sh --current
 
-bump-version: ## Bump version (usage: make bump-version VERSION=1.1.0)
+bump-version: ## Bump version (usage: make bump-version VERSION=1.3.0)
 	@if [ -z "$(VERSION)" ]; then \
-		echo "Usage: make bump-version VERSION=1.1.0"; \
+		echo "Usage: make bump-version VERSION=1.3.0"; \
 		exit 1; \
 	fi
 	@hack/bump-version.sh $(VERSION)
