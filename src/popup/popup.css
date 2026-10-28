@@ -120,20 +120,14 @@ button:active {
   cursor: pointer;
 }
 
-/* 에러 메시지 스타일 */
 textarea.error {
   border-color: #ff4444;
   background-color: var(--bg-color);
   color: #ff4444;
 }
 
-/* 에러 상태일 때 버튼 스타일 */
-textarea.error + .actions button.primary {
-  background-color: #ff4444;
-}
-
 .mode-selector {
-  display: none; /* 기본적으로 숨김 */
+  display: none;
   gap: 8px;
   margin-bottom: 16px;
 }
@@ -208,4 +202,8 @@ textarea.error + .actions button.primary {
 .toast.show {
   opacity: 1;
   transform: translateX(-50%) translateY(0);
+}
+
+.json-options[hidden] {
+  display: none;
 }

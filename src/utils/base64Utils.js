@@ -3,7 +3,7 @@ import { t } from '../i18n.js';
 export function encodeBase64(input) {
   try {
     return btoa(input);
-  } catch (e) {
+  } catch {
     return t('base64EncodeInvalid');
   }
 }
@@ -11,7 +11,7 @@ export function encodeBase64(input) {
 export function decodeBase64(input) {
   try {
     return atob(input);
-  } catch (e) {
+  } catch {
     return t('base64DecodeInvalid');
   }
 }

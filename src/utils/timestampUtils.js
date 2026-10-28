@@ -12,12 +12,8 @@ export function timestampToDate(input) {
     throw new Error(t('timestampNotNumeric'));
   }
 
-  // Auto-detect: if 13+ digits, treat as milliseconds
-  if (trimmed.length >= 13) {
-    ts = ts; // already ms
-  } else {
-    ts = ts * 1000; // convert seconds to ms
-  }
+  // 13 or more digits are milliseconds, anything shorter is seconds.
+  if (trimmed.length < 13) ts *= 1000;
 
   const date = new Date(ts);
   if (isNaN(date.getTime())) {
