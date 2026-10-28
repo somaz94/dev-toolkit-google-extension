@@ -41,6 +41,10 @@ describe('validateInput', () => {
     expect(validateInput('bad.token.!!!', 'jwt').isValid).toBe(false);
   });
 
+  test('validates a JWT token followed by a secret line', () => {
+    expect(validateInput('eyJhbGciOiJIUzI1NiJ9.eyJ0ZXN0IjoxfQ.sig\nmy-secret', 'jwt').isValid).toBe(true);
+  });
+
   test('invalidates a JWT token without three parts', () => {
     expect(validateInput('{"sub":"123"}', 'jwt').isValid).toBe(false);
   });

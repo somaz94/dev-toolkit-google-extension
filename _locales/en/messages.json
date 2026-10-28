@@ -119,6 +119,12 @@
   "placeholderDiff": {
     "message": "Enter two texts separated by --- on its own line:\n\nfirst text\n---\nsecond text"
   },
+  "placeholderJwtEncode": {
+    "message": "JSON payload on the first line, and a secret on the second (optional, \"secret\" when left out)"
+  },
+  "placeholderJwtDecode": {
+    "message": "A token on the first line, and its secret on the second to check the signature (optional)"
+  },
   "errorEmpty": {
     "message": "Input is empty."
   },
@@ -148,6 +154,24 @@
   },
   "jwtEncodeFailed": {
     "message": "Failed to encode JWT: $1"
+  },
+  "jwtExpired": {
+    "message": "expired"
+  },
+  "jwtNotYetValid": {
+    "message": "not valid yet"
+  },
+  "jwtSignatureHint": {
+    "message": "Not checked: put the secret on a second line to check an HS256 signature."
+  },
+  "jwtSignatureValid": {
+    "message": "✓ Valid HS256 signature for this secret"
+  },
+  "jwtSignatureInvalid": {
+    "message": "✗ Does not match this secret"
+  },
+  "jwtSignatureUnsupported": {
+    "message": "Not checked: only HS256 can be checked here, and this token uses $1."
   },
   "colorInvalid": {
     "message": "Invalid color format.\nSupported: #ff0000, rgb(255,0,0), hsl(0,100,50)"

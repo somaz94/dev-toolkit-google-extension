@@ -70,16 +70,27 @@ SGVsbG8gV29ybGQh → Hello World!
 
 ## JWT Token Tools
 
-Decode JWT tokens to view their structure, or encode a JSON payload into JWT format.
+Decode a token to see its header, payload, times and signature, or encode a JSON payload into a signed token.
 
 **Decode:**
 ```
-Input: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjM0NTY3ODkwIn0...
+Input:
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
+your-256-bit-secret
 
 Output:
-Header:  { "alg": "HS256" }
-Payload: { "sub": "1234567890" }
-Signature: (displayed as-is)
+Header:
+{ "alg": "HS256", "typ": "JWT" }
+
+Payload:
+{ "sub": "1234567890", "name": "John Doe", "iat": 1516239022 }
+
+Times:
+iat  2018-01-18 01:30:22 UTC (N years ago)
+
+Signature:
+SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
+✓ Valid HS256 signature for this secret
 ```
 
 **Encode:**
@@ -93,8 +104,9 @@ eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4
 ```
 
 **Details:**
-- Decodes all three JWT parts (header, payload, signature); the signature is shown, not verified
-- Handles Base64Url encoding (URL-safe Base64 without padding)
+- Decodes all three JWT parts (header, payload, signature), and any text in them, Korean included
+- `iat`, `nbf` and `exp` are shown as UTC times with how long ago or ahead they are; an `exp` in the past is marked expired and an `nbf` in the future not valid yet
+- With a secret on the second line, decoding checks an HS256 signature against it; other algorithms are shown but not checked
 - Encoding signs with HMAC-SHA256 through the Web Crypto API. The payload is the first line, as one line of JSON, and the secret the optional second line (`secret` when left out)
 
 <br/>

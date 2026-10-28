@@ -1,16 +1,12 @@
-import { decodeJWT } from '../utils/jwtDecoder.js';
+import { inspectJWT } from '../utils/jwtDecoder.js';
 import { encodeJWT } from '../utils/jwtEncoder.js';
 
+// Both modes take an optional secret on the second line: encode signs with it, decode checks the signature.
 export default {
   id: 'jwt',
   modes: { encode: 'modeEncode', decode: 'modeDecode' },
   action: { encode: 'actionEncodeJwt', decode: 'actionDecodeJwt' },
-  placeholder: 'inputPlaceholder',
+  placeholder: { encode: 'placeholderJwtEncode', decode: 'placeholderJwtDecode' },
   validate: (mode) => (mode === 'encode' ? 'jwtPayload' : 'jwt'),
-  async run(input, { mode }) {
-    if (mode === 'encode') return encodeJWT(input);
-    const decoded = decodeJWT(input);
-    if (decoded.error) return decoded;
-    return `Header:\n${decoded.header}\n\nPayload:\n${decoded.payload}\n\nSignature:\n${decoded.signature}`;
-  },
+  run: (input, { mode }) => (mode === 'encode' ? encodeJWT(input) : inspectJWT(input)),
 };

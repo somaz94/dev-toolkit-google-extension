@@ -57,7 +57,7 @@ describe('runTool', () => {
   test('round-trips a JWT and reports a bad one as an error', async () => {
     const { output: token } = await runTool(getTool('jwt'), '{"sub":"1"}\nkey', { mode: 'encode' });
     const { output } = await runTool(getTool('jwt'), token, { mode: 'decode' });
-    expect(output).toMatch(/^Header:\n[\s\S]*"HS256"[\s\S]*\n\nPayload:\n[\s\S]*"sub": "1"[\s\S]*\n\nSignature:\n\S+$/);
+    expect(output).toMatch(/^Header:\n[\s\S]*"HS256"[\s\S]*\n\nPayload:\n[\s\S]*"sub": "1"[\s\S]*\n\nSignature:\n\S+\nNot checked/);
     expect(await runTool(getTool('jwt'), 'abc.def.ghi', { mode: 'decode' })).toEqual({ error: 'Invalid JWT token' });
   });
 

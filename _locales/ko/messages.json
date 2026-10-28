@@ -119,6 +119,12 @@
   "placeholderDiff": {
     "message": "두 텍스트 사이에 --- 한 줄을 넣어 입력하세요:\n\n첫 번째 텍스트\n---\n두 번째 텍스트"
   },
+  "placeholderJwtEncode": {
+    "message": "첫 줄에 JSON 페이로드, 둘째 줄에 secret (선택, 비우면 \"secret\")"
+  },
+  "placeholderJwtDecode": {
+    "message": "첫 줄에 토큰, 서명을 검증하려면 둘째 줄에 secret (선택)"
+  },
   "errorEmpty": {
     "message": "입력이 비어 있습니다."
   },
@@ -148,6 +154,24 @@
   },
   "jwtEncodeFailed": {
     "message": "JWT를 인코딩하지 못했습니다: $1"
+  },
+  "jwtExpired": {
+    "message": "만료됨"
+  },
+  "jwtNotYetValid": {
+    "message": "아직 유효하지 않음"
+  },
+  "jwtSignatureHint": {
+    "message": "검증 안 함: HS256 서명을 검증하려면 둘째 줄에 secret을 넣으세요."
+  },
+  "jwtSignatureValid": {
+    "message": "✓ 이 secret으로 만든 올바른 HS256 서명입니다"
+  },
+  "jwtSignatureInvalid": {
+    "message": "✗ 이 secret과 맞지 않습니다"
+  },
+  "jwtSignatureUnsupported": {
+    "message": "검증 안 함: 여기서는 HS256만 검증할 수 있는데, 이 토큰은 $1을(를) 씁니다."
   },
   "colorInvalid": {
     "message": "색상 형식이 올바르지 않습니다.\n지원 형식: #ff0000, rgb(255,0,0), hsl(0,100,50)"

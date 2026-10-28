@@ -27,7 +27,7 @@ export function validateInput(input, type) {
       return { isValid: true };
 
     case 'jwt':
-      if (!/^[A-Za-z0-9-_]+\.[A-Za-z0-9-_]+\.[A-Za-z0-9-_]*$/.test(input.trim())) {
+      if (!/^[A-Za-z0-9-_]+\.[A-Za-z0-9-_]+\.[A-Za-z0-9-_]*$/.test(input.trim().split('\n')[0].trim())) {
         return {
           isValid: false,
           error: t('validateJwt')
