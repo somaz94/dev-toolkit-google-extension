@@ -4,7 +4,6 @@ export default {
   id: 'json',
   action: 'actionFormatJson',
   placeholder: 'inputPlaceholder',
-  indentOptions: true,
   validate: () => 'json',
-  run: (input, { indent }) => formatJSON(input, indent),
+  run: (input, { options }) => formatJSON(input, options.indent === 'tab' ? 'tab' : Number(options.indent ?? 2)),
 };

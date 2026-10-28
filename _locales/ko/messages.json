@@ -38,8 +38,14 @@
   "indentTab": {
     "message": "탭"
   },
+  "indentLabel": {
+    "message": "들여쓰기"
+  },
   "minify": {
     "message": "압축"
+  },
+  "base64UrlSafe": {
+    "message": "URL 안전 문자(-, _, 패딩 없음)"
   },
   "inputPlaceholder": {
     "message": "여기에 텍스트를 입력하세요..."
@@ -127,9 +133,6 @@
   },
   "jsonError": {
     "message": "오류: $1"
-  },
-  "base64EncodeInvalid": {
-    "message": "Base64로 인코딩할 수 없는 입력입니다"
   },
   "base64DecodeInvalid": {
     "message": "올바른 Base64 문자열이 아닙니다"

@@ -24,6 +24,8 @@ describe('validateInput', () => {
   test('validates valid Base64', () => {
     expect(validateInput('SGVsbG8=', 'base64').isValid).toBe(true);
     expect(validateInput('YWJj', 'base64').isValid).toBe(true);
+    expect(validateInput('8J-YgA', 'base64').isValid).toBe(true);
+    expect(validateInput('SGVsbG8g\nV29ybGQh', 'base64').isValid).toBe(true);
   });
 
   test('invalidates bad Base64', () => {

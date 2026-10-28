@@ -37,8 +37,9 @@ describe('labelsFor', () => {
 
 describe('runTool', () => {
   test('formats JSON with the chosen indent', async () => {
-    expect(await runTool(getTool('json'), '{"a":1}', { indent: 4 })).toEqual({ output: '{\n    "a": 1\n}' });
-    expect(await runTool(getTool('json'), '{"a":1}', { indent: 'tab' })).toEqual({ output: '{\n\t"a": 1\n}' });
+    expect(await runTool(getTool('json'), '{"a":1}', { options: { indent: '4' } })).toEqual({ output: '{\n    "a": 1\n}' });
+    expect(await runTool(getTool('json'), '{"a":1}', { options: { indent: 'tab' } })).toEqual({ output: '{\n\t"a": 1\n}' });
+    expect(await runTool(getTool('json'), '{"a":1}')).toEqual({ output: '{\n  "a": 1\n}' });
   });
 
   test('stops at validation', async () => {
@@ -48,6 +49,7 @@ describe('runTool', () => {
 
   test('skips validation the mode does not need', async () => {
     expect(await runTool(getTool('base64'), 'Hello', { mode: 'encode' })).toEqual({ output: 'SGVsbG8=' });
+    expect(await runTool(getTool('base64'), '??>', { mode: 'encode', options: { urlSafe: true } })).toEqual({ output: 'Pz8-' });
     expect(await runTool(getTool('url'), 'a%20b', { mode: 'decode' })).toEqual({ output: 'a b' });
     expect(await runTool(getTool('url'), 'a b', { mode: 'encode' })).toEqual({ output: 'a%20b' });
   });
@@ -57,6 +59,11 @@ describe('runTool', () => {
     const { output } = await runTool(getTool('jwt'), token, { mode: 'decode' });
     expect(output).toMatch(/^Header:\n[\s\S]*"HS256"[\s\S]*\n\nPayload:\n[\s\S]*"sub": "1"[\s\S]*\n\nSignature:\n\S+$/);
     expect(await runTool(getTool('jwt'), 'abc.def.ghi', { mode: 'decode' })).toEqual({ error: 'Invalid JWT token' });
+  });
+
+  test('round-trips a payload outside Latin-1', async () => {
+    const { output: token } = await runTool(getTool('jwt'), '{"name":"홍길동"}', { mode: 'encode' });
+    expect((await runTool(getTool('jwt'), token, { mode: 'decode' })).output).toContain('"name": "홍길동"');
   });
 
   test('encodes a payload whose values contain dots', async () => {

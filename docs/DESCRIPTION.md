@@ -13,7 +13,7 @@ Dev Toolkit puts the small converters developers reach for every day in one popu
 
 Tools
 - JSON: format with 2 spaces, 4 spaces or tabs, minify, and see where invalid JSON breaks
-- Base64: encode and decode
+- Base64: encode and decode any text as UTF-8, standard or URL-safe
 - JWT: decode a token into its header, payload and signature, or sign a payload with HMAC-SHA256
 - URL: percent-encode and decode
 - Timestamp: Unix seconds or milliseconds to UTC and local time, and any date, or "now", back to a timestamp

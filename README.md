@@ -11,7 +11,7 @@ Everything runs in the popup itself. It asks for no permissions, makes no networ
 ## Features
 
 - **JSON**: format with 2 spaces, 4 spaces or tabs, minify, and see where invalid JSON breaks
-- **Base64**: encode and decode, with the input checked before decoding
+- **Base64**: encode and decode any text as UTF-8, in the standard or the URL-safe alphabet
 - **JWT**: decode a token into its header, payload and signature, or sign a payload with HMAC-SHA256
 - **URL**: percent-encode and decode
 - **Timestamp**: Unix seconds or milliseconds to UTC and local time, and any date, or `now`, back to a timestamp

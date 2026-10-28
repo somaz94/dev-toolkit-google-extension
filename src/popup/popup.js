@@ -16,12 +16,11 @@ const ui = {
   clear: $('clear'),
   theme: $('theme-toggle'),
   modeSelector: document.querySelector('.mode-selector'),
-  jsonOptions: document.querySelector('.json-options'),
-  indent: $('json-indent'),
   minify: $('minify'),
 };
 const tabs = [...document.querySelectorAll('.tab-btn')];
 const modeButtons = [...document.querySelectorAll('.mode-btn')];
+const panels = [...document.querySelectorAll('.tool-options')];
 
 const history = createHistory();
 const themer = createThemer(document);
@@ -34,7 +33,13 @@ function renderLabels() {
   ui.input.placeholder = labels.placeholder;
   ui.modeSelector.classList.toggle('visible', Boolean(labels.modes));
   if (labels.modes) for (const button of modeButtons) button.textContent = labels.modes[button.dataset.mode];
-  ui.jsonOptions.hidden = !tool.indentOptions;
+  for (const panel of panels) panel.hidden = panel.dataset.tool !== tool.id;
+}
+
+function optionsOf(id) {
+  const panel = panels.find((candidate) => candidate.dataset.tool === id);
+  const inputs = panel ? [...panel.querySelectorAll('[data-option]')] : [];
+  return Object.fromEntries(inputs.map((input) => [input.dataset.option, input.type === 'checkbox' ? input.checked : input.value]));
 }
 
 function showError(message) {
@@ -77,8 +82,7 @@ async function run() {
   const rejected = inputError(tool, input);
   if (rejected) return showError(rejected);
   history.save(tool.id, input);
-  const indent = ui.indent.value === 'tab' ? 'tab' : Number(ui.indent.value);
-  const result = await runTool(tool, input, { mode, indent });
+  const result = await runTool(tool, input, { mode, options: optionsOf(tool.id) });
   if (result.error) showError(result.error);
   else showOutput(result.output);
 }

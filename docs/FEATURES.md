@@ -62,8 +62,9 @@ SGVsbG8gV29ybGQh → Hello World!
 ```
 
 **Details:**
-- Uses native `btoa()` / `atob()` APIs, so the input is Latin-1 text
-- Checks the input against the standard Base64 alphabet before decoding
+- Encodes the UTF-8 bytes of the text, so Korean, emoji and any other text work
+- **URL-safe** encodes with `-` and `_` and no padding, as JWTs and URLs use
+- Decoding accepts both alphabets, missing padding and line breaks; a result that is not UTF-8 text is shown one character per byte
 
 <br/>
 

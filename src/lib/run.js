@@ -20,15 +20,15 @@ export function labelsFor(tool, mode) {
   };
 }
 
-/** Runs `tool` on `input`; resolves to `{ output }` or `{ error }`, never rejects. */
-export async function runTool(tool, input, { mode, indent } = {}) {
+/** Runs `tool` on `input` with the values of its options panel; resolves to `{ output }` or `{ error }`, never rejects. */
+export async function runTool(tool, input, { mode, options = {} } = {}) {
   const type = tool.validate?.(mode);
   if (type) {
     const validation = validateInput(input, type);
     if (!validation.isValid) return { error: validation.error };
   }
   try {
-    const result = await tool.run(input, { mode, indent });
+    const result = await tool.run(input, { mode, options });
     return result?.error ? { error: result.error } : { output: result };
   } catch (error) {
     return { error: t('errorUnexpected', error.message) };

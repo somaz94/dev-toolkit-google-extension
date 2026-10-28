@@ -8,6 +8,7 @@ const browser = {
   setTimeout: 'readonly',
   URL: 'readonly',
   TextEncoder: 'readonly',
+  TextDecoder: 'readonly',
   atob: 'readonly',
   btoa: 'readonly',
   crypto: 'readonly',

@@ -26,13 +26,17 @@
       <button class="mode-btn" data-mode="decode" data-i18n="modeDecode">Decode</button>
     </div>
 
-    <div class="json-options" hidden>
-      <select id="json-indent">
+    <!-- One panel per tool that takes options; each data-option input becomes options.<name> in tool.run. -->
+    <div class="tool-options" data-tool="json" hidden>
+      <select data-option="indent" data-i18n-aria-label="indentLabel">
         <option value="2" data-i18n="indent2">2 spaces</option>
         <option value="4" data-i18n="indent4">4 spaces</option>
         <option value="tab" data-i18n="indentTab">Tab</option>
       </select>
       <button id="minify" class="minify-btn" data-i18n="minify">Minify</button>
+    </div>
+    <div class="tool-options" data-tool="base64" hidden>
+      <label><input type="checkbox" data-option="urlSafe"> <span data-i18n="base64UrlSafe">URL-safe</span></label>
     </div>
 
     <div class="content">

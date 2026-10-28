@@ -19,6 +19,15 @@ describe('tools', () => {
     expect(tabs.filter((match) => match[1]).map((match) => match[2])).toEqual([TOOLS[0].id]);
   });
 
+  test('every options panel belongs to a tool and names its options', () => {
+    const panels = [...html.matchAll(/<div class="tool-options" data-tool="(\w+)" hidden>([\s\S]*?)<\/div>/g)];
+    expect(panels.length).toBeGreaterThan(0);
+    for (const [, id, body] of panels) {
+      expect(getTool(id)).toBeDefined();
+      expect(body).toMatch(/data-option="\w+"/);
+    }
+  });
+
   test('Alt+1-9 reaches every tab', () => {
     expect(TOOLS.length).toBeLessThanOrEqual(9);
   });

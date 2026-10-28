@@ -152,7 +152,7 @@ textarea.error {
   color: var(--primary-button-text);
 }
 
-.json-options {
+.tool-options {
   display: flex;
   align-items: center;
   gap: 8px;
@@ -160,7 +160,13 @@ textarea.error {
   margin-bottom: 8px;
 }
 
-.json-options select {
+.tool-options label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+}
+.tool-options select {
   padding: 4px 8px;
   border: 1px solid var(--textarea-border);
   border-radius: 4px;
@@ -205,6 +211,6 @@ textarea.error {
   transform: translateX(-50%) translateY(0);
 }
 
-.json-options[hidden] {
+.tool-options[hidden] {
   display: none;
 }

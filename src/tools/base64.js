@@ -6,5 +6,5 @@ export default {
   action: { encode: 'actionEncodeBase64', decode: 'actionDecodeBase64' },
   placeholder: 'inputPlaceholder',
   validate: (mode) => (mode === 'decode' ? 'base64' : null),
-  run: (input, { mode }) => (mode === 'encode' ? encodeBase64(input) : decodeBase64(input)),
+  run: (input, { mode, options }) => (mode === 'encode' ? encodeBase64(input, { urlSafe: options.urlSafe }) : decodeBase64(input)),
 };

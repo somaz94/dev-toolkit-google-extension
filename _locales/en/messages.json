@@ -38,8 +38,14 @@
   "indentTab": {
     "message": "Tab"
   },
+  "indentLabel": {
+    "message": "Indentation"
+  },
   "minify": {
     "message": "Minify"
+  },
+  "base64UrlSafe": {
+    "message": "URL-safe (- and _, no padding)"
   },
   "inputPlaceholder": {
     "message": "Enter your text here..."
@@ -127,9 +133,6 @@
   },
   "jsonError": {
     "message": "Error: $1"
-  },
-  "base64EncodeInvalid": {
-    "message": "Invalid input for Base64 encoding"
   },
   "base64DecodeInvalid": {
     "message": "Invalid Base64 string"

@@ -48,11 +48,12 @@ Plain ES modules, loaded straight from `src/` with no bundler. Each directory ha
    | `id` | yes | Matches the tab's `data-tab` in `popup.html` |
    | `action` | yes | Message key of the run button, or one per mode: `{ encode, decode }` |
    | `placeholder` | yes | Message key of the input placeholder, or one per mode |
-   | `run(input, { mode, indent })` | yes | Returns the output, or a promise of it; may return `{ error }` instead of throwing |
+   | `run(input, { mode, options })` | yes | Returns the output, or a promise of it; may return `{ error }` instead of throwing |
    | `modes` | no | `{ encode, decode }` message keys for the two mode buttons; without it the buttons are hidden |
    | `validate(mode)` | no | The `validateInput` type to check before running, or `null` |
    | `allowEmpty` | no | Runs on an empty input (UUID generates one) |
-   | `indentOptions` | no | Shows the indent select and **Minify** |
+
+   A tool that takes options gets a `.tool-options` panel with `data-tool="<id>"` in `popup.html`; each input in it with `data-option="<name>"` reaches `run` as `options.<name>` (a checkbox as a boolean, anything else as its value).
 
 3. Add it to `TOOLS` in `src/tools/index.js` and a tab button to `src/popup/popup.html`, in the same position. The order is the `Alt+1` to `Alt+9` order, so there is room for nine tools
 4. Add its message keys to every `_locales/<language>/messages.json`
