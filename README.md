@@ -18,7 +18,7 @@ Everything runs in the popup itself. It asks for no permissions, makes no networ
 - **Hash**: SHA-1, SHA-256, SHA-384 and SHA-512 at once
 - **UUID**: one v4 UUID, or a batch of up to 100
 - **Color**: HEX, RGB or HSL in, all three out
-- **Diff**: two texts compared line by line, with a summary
+- **Diff**: two texts aligned line by line, the way `git diff` does, with a summary
 - **Keyboard first**: `Ctrl+Enter` runs, `Ctrl+Shift+C` copies the result, `Alt+1` to `Alt+9` switch tools (`Cmd` on macOS)
 - **Input history**: the last five inputs per tool, restored when you come back to it
 - A light and a dark theme, and **English and Korean**, following the browser language

@@ -20,7 +20,7 @@ Tools
 - Hash: SHA-1, SHA-256, SHA-384 and SHA-512 at once
 - UUID: one v4 UUID, or up to 100 at once
 - Color: HEX, RGB or HSL in, all three out
-- Diff: two texts compared line by line, with a summary
+- Diff: two texts aligned line by line, the way git diff does, with a summary
 
 Made for quick work
 - Ctrl+Enter runs, Ctrl+Shift+C copies the result, Alt+1 to Alt+9 switch tools

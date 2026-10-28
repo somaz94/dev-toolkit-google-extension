@@ -262,7 +262,8 @@ new line
 - Separate two texts with `---` or `===` on its own line
 - Shows added (`+`), removed (`-`), and unchanged lines
 - Summary with counts at the top
-- Lines are paired by position, not aligned, so a line inserted near the top marks the lines below it as changed
+- Lines are aligned with Myers' algorithm, so a line inserted near the top shows as one addition, not as every line below it changing
+- Texts that differ in thousands of places show the differing middle as one removed block and one added block
 
 <br/>
 
