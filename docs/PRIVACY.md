@@ -7,7 +7,7 @@ Dev Toolkit does not collect, transmit or sell any data.
 ## What is stored
 
 - the last five inputs you ran in each tool, so the latest one is back when you return to that tool
-- your theme, light or dark
+- your theme setting: system, light or dark
 - the tool, mode and options you used last, so the popup reopens on them
 
 Outputs, and inputs you never run, are not stored. When you sign a JWT, the secret on the input's second line is stored with that input like the rest of it, so prefer a throwaway secret for shared machines.

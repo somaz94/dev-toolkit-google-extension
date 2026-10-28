@@ -103,12 +103,21 @@ async function keyboard(popup) {
 
 async function theme(popup) {
   console.log('theme');
-  const before = (await state(popup)).theme;
+  const look = () => popup.evaluate(`[document.documentElement.getAttribute('data-theme'), document.getElementById('theme-toggle').title]`);
+  // The headless browser otherwise follows the appearance of the machine running the test.
+  await popup.send('Emulation.setEmulatedMedia', { features: [{ name: 'prefers-color-scheme', value: 'light' }] });
+  await popup.evaluate('new Promise((resolve) => setTimeout(resolve, 200))');
+  check('a new user follows the system', await look(), ['light', 'Theme: follow the system (click for light)']);
+  await popup.send('Emulation.setEmulatedMedia', { features: [{ name: 'prefers-color-scheme', value: 'dark' }] });
+  // The media query's change event arrives after the emulation call returns.
+  await popup.evaluate('new Promise((resolve) => setTimeout(resolve, 200))');
+  check('and the page turns dark with it', (await look())[0], 'dark');
   await popup.evaluate(`document.getElementById('theme-toggle').click()`);
-  const after = (await state(popup)).theme;
-  check('the toggle changes the theme', after !== before, true);
+  check('the toggle picks light over a dark system', await look(), ['light', 'Theme: light (click for dark)']);
+  await popup.evaluate(`document.getElementById('theme-toggle').click()`);
   await popup.reload();
-  check('the theme survives a reload', (await state(popup)).theme, after);
+  check('dark survives a reload', await look(), ['dark', 'Theme: dark (click to follow the system)']);
+  await popup.send('Emulation.setEmulatedMedia', { features: [] });
 }
 
 async function remembers(popup) {

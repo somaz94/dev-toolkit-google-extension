@@ -62,6 +62,15 @@
   "historyLabel": {
     "message": "최근 입력"
   },
+  "themeAuto": {
+    "message": "테마: 시스템 설정 따름 (누르면 밝게)"
+  },
+  "themeLight": {
+    "message": "테마: 밝게 (누르면 어둡게)"
+  },
+  "themeDark": {
+    "message": "테마: 어둡게 (누르면 시스템 설정 따름)"
+  },
   "copied": {
     "message": "클립보드에 복사했습니다!"
   },

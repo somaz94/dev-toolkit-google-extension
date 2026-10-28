@@ -3,7 +3,7 @@ import { createHistory, historyLabel } from '../lib/history.js';
 import { inputError, labelsFor, runTool } from '../lib/run.js';
 import { shortcutFor } from '../lib/shortcuts.js';
 import { createState } from '../lib/state.js';
-import { createThemer, themeIcon } from '../lib/theme.js';
+import { createThemer, themeIcon, themeTitle } from '../lib/theme.js';
 import { getTool, TOOLS } from '../tools/index.js';
 import { minifyJSON } from '../utils/jsonFormatter.js';
 
@@ -154,9 +154,13 @@ ui.minify.addEventListener('click', () => {
   showOutput(minifyJSON(ui.input.value));
 });
 
-ui.theme.addEventListener('click', () => {
-  ui.theme.textContent = themeIcon(themer.toggle());
-});
+function renderTheme(setting) {
+  ui.theme.textContent = themeIcon(setting);
+  ui.theme.title = t(themeTitle(setting));
+  ui.theme.setAttribute('aria-label', ui.theme.title);
+}
+
+ui.theme.addEventListener('click', () => renderTheme(themer.toggle()));
 
 document.addEventListener('keydown', (event) => {
   const shortcut = shortcutFor(event, tabs.length);
@@ -168,7 +172,7 @@ document.addEventListener('keydown', (event) => {
 });
 
 applyTranslations();
-ui.theme.textContent = themeIcon(themer.current());
+renderTheme(themer.current());
 const saved = state.load();
 for (const [id, values] of Object.entries(saved.options)) applyOptions(id, values);
 selectMode(saved.mode);

@@ -62,6 +62,15 @@
   "historyLabel": {
     "message": "Recent inputs"
   },
+  "themeAuto": {
+    "message": "Theme: follow the system (click for light)"
+  },
+  "themeLight": {
+    "message": "Theme: light (click for dark)"
+  },
+  "themeDark": {
+    "message": "Theme: dark (click to follow the system)"
+  },
   "copied": {
     "message": "Copied to clipboard!"
   },

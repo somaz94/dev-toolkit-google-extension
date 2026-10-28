@@ -26,7 +26,7 @@ Made for quick work
 - Ctrl+Enter runs, Ctrl+Shift+C copies the result, Alt+1 to Alt+9 switch tools
 - Reopens on the tool, mode and options you used last
 - The last five inputs of each tool are kept: the latest comes back when you return to it, and any of them is one pick away
-- A light and a dark theme
+- A light and a dark theme, following the system unless you pick one
 - English and Korean, following the browser language
 
 Privacy

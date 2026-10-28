@@ -117,6 +117,8 @@ export async function launch({ language = 'en', timeZone = 'UTC' } = {}) {
     return {
       evaluate,
       ready,
+      /** A raw DevTools call on this tab, such as `Emulation.setEmulatedMedia`. */
+      send: (method, params) => send(method, params, sessionId),
       /** Uncaught exceptions and console errors the page has reported so far. */
       problems: () => [...problems.get(sessionId)],
       async reload() {

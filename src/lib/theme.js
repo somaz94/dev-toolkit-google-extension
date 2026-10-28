@@ -1,24 +1,37 @@
-export const THEMES = Object.freeze(['light', 'dark']);
+export const THEMES = Object.freeze(['auto', 'light', 'dark']);
+// Read by src/theme-early.js too, which cannot import this module.
 export const THEME_KEY = 'theme';
 
-// The toggle shows the theme a click switches to.
-const ICONS = { light: '🌙', dark: '☀️' };
+const ICONS = { auto: '🌓', light: '☀️', dark: '🌙' };
+export const THEME_TITLES = Object.freeze({ auto: 'themeAuto', light: 'themeLight', dark: 'themeDark' });
 
-export const nextTheme = (theme) => (theme === 'dark' ? 'light' : 'dark');
-export const themeIcon = (theme) => ICONS[theme];
+export const nextTheme = (setting) => THEMES[(THEMES.indexOf(setting) + 1) % THEMES.length];
+export const themeIcon = (setting) => ICONS[setting];
+/** The message key that names `setting` on the toggle. */
+export const themeTitle = (setting) => THEME_TITLES[setting];
 
-/** Keeps the page in the stored theme and switches it on `toggle()`. */
-export function createThemer(doc, storage = globalThis.localStorage) {
-  let theme = THEMES.includes(storage.getItem(THEME_KEY)) ? storage.getItem(THEME_KEY) : 'light';
-  const paint = () => doc.documentElement.setAttribute('data-theme', theme);
+/** 'light' or 'dark' for a setting; 'auto' follows the system. */
+export function resolveTheme(setting, prefersDark) {
+  if (setting === 'light' || setting === 'dark') return setting;
+  return prefersDark ? 'dark' : 'light';
+}
+
+/** Keeps the page in the stored theme setting, following the system while it is 'auto'. */
+export function createThemer(doc, {
+  storage = globalThis.localStorage,
+  media = globalThis.matchMedia?.('(prefers-color-scheme: dark)'),
+} = {}) {
+  let setting = THEMES.includes(storage.getItem(THEME_KEY)) ? storage.getItem(THEME_KEY) : 'auto';
+  const paint = () => doc.documentElement.setAttribute('data-theme', resolveTheme(setting, media?.matches));
+  media?.addEventListener('change', paint);
   paint();
   return {
-    current: () => theme,
+    current: () => setting,
     toggle() {
-      theme = nextTheme(theme);
-      storage.setItem(THEME_KEY, theme);
+      setting = nextTheme(setting);
+      storage.setItem(THEME_KEY, setting);
       paint();
-      return theme;
+      return setting;
     },
   };
 }

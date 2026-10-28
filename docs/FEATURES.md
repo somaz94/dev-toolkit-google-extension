@@ -15,7 +15,7 @@ Detailed description of all tools available in Dev Toolkit.
 - [UUID Generator](#uuid-generator)
 - [Color Converter](#color-converter)
 - [Diff Viewer](#diff-viewer)
-- [Dark Mode](#dark-mode)
+- [Theme](#theme)
 - [Keyboard Shortcuts](#keyboard-shortcuts)
 - [Languages](#languages)
 
@@ -279,13 +279,13 @@ new line
 
 <br/>
 
-## Dark Mode
+## Theme
 
-Toggle between light and dark themes.
+Follow the system appearance, or pick light or dark.
 
-- Click the moon/sun icon in the header
-- Preference is saved in `localStorage` and persists across sessions
-- CSS custom properties for consistent theming
+- The button in the header cycles through **system** (🌓), **light** (☀️) and **dark** (🌙); hover it to see the current setting
+- **System** is the default, and follows the operating system as it switches between light and dark
+- The setting is saved in `localStorage`, and the popup opens in it without a flash of the other theme
 
 <br/>
 

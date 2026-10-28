@@ -2,6 +2,7 @@ import { describe, test, expect } from '@jest/globals';
 import { readdirSync, readFileSync, statSync } from 'node:fs';
 import { extname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { THEME_TITLES } from '../src/lib/theme.js';
 import { messageKeys, TOOLS } from '../src/tools/index.js';
 
 const ROOT = fileURLToPath(new URL('..', import.meta.url));
@@ -24,6 +25,7 @@ const referenced = new Set([
   ...sources('src').flatMap((text) => [...text.matchAll(REFERENCE)].map((match) => match[1] ?? match[2])),
   ...[...read('manifest.json').matchAll(/__MSG_(\w+)__/g)].map((match) => match[1]),
   ...TOOLS.flatMap(messageKeys),
+  ...Object.values(THEME_TITLES),
 ]);
 
 describe('locales', () => {

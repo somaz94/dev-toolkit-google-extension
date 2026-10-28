@@ -33,6 +33,7 @@ Plain ES modules, loaded straight from `src/` with no bundler. Each directory ha
 | `src/tools/` | One module per popup tab, describing the tool to the popup (labels, modes, validation, which util to run), plus the registry in `index.js` |
 | `src/lib/` | What the popup does around a tool, without touching the page: running a tool and turning the result into output or an error, input history, the theme, keyboard shortcuts |
 | `src/i18n.js` | `t()` and the helper that fills `data-i18n` attributes, over Chrome's `_locales` |
+| `src/theme-early.js` | A classic script in the popup's `<head>` that paints the stored theme before the modules load; `src/lib/theme.js` is its tested copy |
 | `src/popup/` | The popup page; DOM glue over `src/lib` and `src/tools` |
 
 `src/popup/` is the only code outside the coverage gate, so logic belongs in `src/lib/`, `src/tools/` or `src/utils/`, where it is tested. The popup itself is covered by the end-to-end test.
