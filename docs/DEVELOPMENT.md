@@ -5,7 +5,7 @@
 ## Prerequisites
 
 - Google Chrome
-- Node.js and npm, for the tests, the linter and the store images only; the extension itself has no build step and no runtime dependencies
+- Node.js and npm, for the tests, the linter and the store images only; the extension itself has no build step and no runtime dependencies. `make e2e` and `make store-screenshots` need Node 22 or later
 
 <br/>
 
@@ -14,6 +14,7 @@
 ```bash
 make install     # dev dependencies (Jest, ESLint)
 make test-cover  # unit tests; fails below the coverage threshold in jest.config.js
+make e2e         # the real popup in Chrome for Testing
 make lint
 make help        # every target
 ```
@@ -34,7 +35,17 @@ Plain ES modules, loaded straight from `src/` with no bundler. Each directory ha
 | `src/i18n.js` | `t()` and the helper that fills `data-i18n` attributes, over Chrome's `_locales` |
 | `src/popup/` | The popup page; DOM glue over `src/lib` and `src/tools` |
 
-`src/popup/` is the only code outside the coverage gate, so logic belongs in `src/lib/`, `src/tools/` or `src/utils/`, where it is tested.
+`src/popup/` is the only code outside the coverage gate, so logic belongs in `src/lib/`, `src/tools/` or `src/utils/`, where it is tested. The popup itself is covered by the end-to-end test.
+
+<br/>
+
+## End-to-end test
+
+`make e2e` (`tests/e2e/run.mjs`) loads the extension into Chrome for Testing and drives the popup over the DevTools protocol: every tool on a sample input, the option panels and modes, the input history, the keyboard shortcuts, the theme, the Korean UI, and no uncaught or console errors. It checks what unit tests cannot: that Chrome accepts the manifest and that the DOM glue in `src/popup/` is wired correctly. CI runs it on every push.
+
+`hack/chrome.mjs` starts Chrome and talks to it with Node's built-in `WebSocket`, so the test adds no dependency; `make store-screenshots` uses it too. Branded Chrome ignores `--load-extension`, so it downloads Chrome for Testing into `~/.cache/dev-toolkit-chrome` on the first run; set `DEV_TOOLKIT_CHROME` to use a Chromium you already have.
+
+After a change to `popup.html` or `popup.js`, run `make e2e` and add a check for the new behavior.
 
 <br/>
 
@@ -83,7 +94,7 @@ make package     # writes dist/dev-toolkit.zip
 
 Upload the ZIP in the [Chrome Web Store Developer Dashboard](https://chrome.google.com/webstore/devconsole). The listing text, the graphic assets, the Privacy tab answers and the reviewer test instructions are in [DESCRIPTION.md](DESCRIPTION.md); link [Privacy](PRIVACY.md) as the privacy policy. A tag push (`v*.*.*`) also builds the ZIP and attaches it to the GitHub release.
 
-`make store-screenshots` redraws `store/screenshots/` and `store/promo/` in English and Korean. It loads the extension into Chrome for Testing (branded Chrome ignores `--load-extension`), downloaded into `~/.cache/dev-toolkit-store` on the first run; set `DEV_TOOLKIT_CHROME` to use a Chromium you already have. It needs Node 22 or later.
+`make store-screenshots` redraws `store/screenshots/` and `store/promo/` in English and Korean, in the same Chrome for Testing as the end-to-end test.
 
 <br/>
 

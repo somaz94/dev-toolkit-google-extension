@@ -29,6 +29,18 @@ export default [
     },
   },
   {
+    files: ['hack/**/*.mjs', 'tests/e2e/**/*.mjs'],
+    languageOptions: {
+      ecmaVersion: 2023,
+      sourceType: 'module',
+      globals: { console: 'readonly', process: 'readonly', Buffer: 'readonly', WebSocket: 'readonly', setTimeout: 'readonly', clearTimeout: 'readonly' },
+    },
+    rules: {
+      semi: ['warn', 'always'],
+      quotes: ['warn', 'single', { allowTemplateLiterals: true }],
+    },
+  },
+  {
     files: ['tests/setup/*.cjs'],
     languageOptions: { sourceType: 'commonjs', globals: { require: 'readonly', __dirname: 'readonly', globalThis: 'readonly' } },
   },

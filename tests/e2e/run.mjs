@@ -1,0 +1,138 @@
+#!/usr/bin/env node
+// Drives the real popup in Chrome for Testing: what the unit tests cannot see, from Chrome accepting the
+// manifest to the DOM glue in src/popup/ that sits outside the coverage gate.
+import { launch, ORIGIN } from '../../hack/chrome.mjs';
+
+const POPUP = `${ORIGIN}/src/popup/popup.html`;
+let failures = 0;
+
+function check(name, actual, expected) {
+  const ok = JSON.stringify(actual) === JSON.stringify(expected);
+  if (!ok) failures += 1;
+  console.log(ok ? `  ✓ ${name}` : `  ✗ ${name}\n      expected ${JSON.stringify(expected)}\n      actual   ${JSON.stringify(actual)}`);
+}
+
+/** Picks `tab` and `mode`, sets the options panel and the input, runs, and returns what the output shows. */
+const runTool = (popup, { tab, mode, input, options = {} }) => popup.evaluate(`(async () => {
+  document.querySelector('[data-tab=${JSON.stringify(tab)}]').click();
+  ${mode ? `document.querySelector('[data-mode=${JSON.stringify(mode)}]').click();` : ''}
+  for (const [name, value] of Object.entries(${JSON.stringify(options)})) {
+    const field = document.querySelector('.tool-options:not([hidden]) [data-option="' + name + '"]');
+    if (field.type === 'checkbox') field.checked = value;
+    else field.value = value;
+  }
+  const output = document.getElementById('output');
+  output.value = '';
+  document.getElementById('input').value = ${JSON.stringify(input)};
+  document.getElementById('format').click();
+  for (let i = 0; i < 50 && !output.value; i += 1) await new Promise((resolve) => setTimeout(resolve, 50));
+  return { output: output.value, error: output.classList.contains('error') };
+})()`);
+
+const state = (popup) => popup.evaluate(`({
+  tab: document.querySelector('.tab-btn.active').dataset.tab,
+  mode: document.querySelector('.mode-btn.active').dataset.mode,
+  input: document.getElementById('input').value,
+  theme: document.documentElement.dataset.theme ?? document.documentElement.getAttribute('data-theme'),
+  panels: [...document.querySelectorAll('.tool-options:not([hidden])')].map((panel) => panel.dataset.tool),
+  modes: document.querySelector('.mode-selector').classList.contains('visible'),
+  history: [...document.querySelectorAll('#history option')].slice(1).map((option) => option.textContent),
+})`);
+
+const key = (popup, init) => popup.evaluate(`document.dispatchEvent(new KeyboardEvent('keydown', ${JSON.stringify({ bubbles: true, ...init })}))`);
+
+async function tools(popup) {
+  console.log('tools');
+  const json = await runTool(popup, { tab: 'json', input: '{"a":1}', options: { indent: '4' } });
+  check('JSON formats with the chosen indent', json, { output: '{\n    "a": 1\n}', error: false });
+  await popup.evaluate(`document.getElementById('minify').click()`);
+  check('Minify puts JSON on one line', await popup.evaluate(`document.getElementById('output').value`), '{"a":1}');
+  const bad = await runTool(popup, { tab: 'json', input: '{bad' });
+  check('invalid JSON shows as an error', [bad.error, bad.output.startsWith('❌ Error: Invalid JSON')], [true, true]);
+
+  check('Base64 encodes UTF-8', (await runTool(popup, { tab: 'base64', mode: 'encode', input: '한글' })).output, '7ZWc6riA');
+  check('Base64 encodes URL-safe', (await runTool(popup, { tab: 'base64', mode: 'encode', input: '??>', options: { urlSafe: true } })).output, 'Pz8-');
+  check('Base64 decodes URL-safe input', (await runTool(popup, { tab: 'base64', mode: 'decode', input: '8J-YgA' })).output, '😀');
+
+  const { output: token } = await runTool(popup, { tab: 'jwt', mode: 'encode', input: '{"sub":"1","name":"홍길동"}\nk' });
+  check('JWT encodes a signed token', token.split('.').length, 3);
+  const decoded = await runTool(popup, { tab: 'jwt', mode: 'decode', input: `${token}\nk` });
+  check('JWT decode shows the payload and checks the signature', [decoded.output.includes('"name": "홍길동"'), decoded.output.includes('✓ Valid HS256')], [true, true]);
+
+  check('URL encodes', (await runTool(popup, { tab: 'url', mode: 'encode', input: 'a b' })).output, 'a%20b');
+  check('Timestamp to date', (await runTool(popup, { tab: 'timestamp', mode: 'decode', input: '0' })).output.includes('1970-01-01 00:00:00.000 UTC'), true);
+  check('Hash', (await runTool(popup, { tab: 'hash', input: 'a' })).output.split('\n').slice(0, 2), ['SHA-1:', '86f7e437faa5a7fce15d1ddcb9eaeaea377667b8']);
+  const uuids = (await runTool(popup, { tab: 'uuid', input: '3' })).output.split('\n');
+  check('UUID batch', uuids.map((uuid) => /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/.test(uuid)), [true, true, true]);
+  check('Color', (await runTool(popup, { tab: 'color', input: '#ff6347' })).output.split('\n')[1], 'RGB: rgb(255, 99, 71)');
+  check('Diff aligns lines', (await runTool(popup, { tab: 'diff', input: 'a\nb\n---\nx\na\nb' })).output.split('\n').slice(2), ['+ x', '  a', '  b']);
+}
+
+async function panels(popup) {
+  console.log('panels and modes');
+  await popup.evaluate(`document.querySelector('[data-tab="json"]').click()`);
+  check('JSON shows its options and no modes', await state(popup).then(({ panels: shown, modes }) => ({ shown, modes })), { shown: ['json'], modes: false });
+  await popup.evaluate(`document.querySelector('[data-tab="base64"]').click()`);
+  check('Base64 shows its options and modes', await state(popup).then(({ panels: shown, modes }) => ({ shown, modes })), { shown: ['base64'], modes: true });
+  await popup.evaluate(`document.querySelector('[data-tab="hash"]').click()`);
+  check('Hash shows neither', await state(popup).then(({ panels: shown, modes }) => ({ shown, modes })), { shown: [], modes: false });
+}
+
+async function history(popup) {
+  console.log('history');
+  await runTool(popup, { tab: 'json', input: '{"first":1}' });
+  await runTool(popup, { tab: 'json', input: '{"second":2}' });
+  await popup.evaluate(`document.querySelector('[data-tab="url"]').click()`);
+  await popup.evaluate(`document.querySelector('[data-tab="json"]').click()`);
+  const shown = await state(popup);
+  check('switching back restores the latest input', shown.input, '{"second":2}');
+  check('the recent list holds every input, newest first', shown.history.slice(0, 2), ['{"second":2}', '{"first":1}']);
+  await popup.evaluate(`(() => { const list = document.getElementById('history'); list.value = '1'; list.dispatchEvent(new Event('change')); })()`);
+  check('picking a recent input puts it back', (await state(popup)).input, '{"first":1}');
+}
+
+async function keyboard(popup) {
+  console.log('keyboard');
+  await key(popup, { key: '2', altKey: true });
+  check('Alt+2 switches to the second tool', (await state(popup)).tab, 'base64');
+  await popup.evaluate(`document.querySelector('[data-mode="encode"]').click(); document.querySelector('[data-option="urlSafe"]').checked = false; document.getElementById('input').value = 'hi'; document.getElementById('output').value = ''`);
+  await key(popup, { key: 'Enter', ctrlKey: true });
+  await popup.evaluate('new Promise((resolve) => setTimeout(resolve, 200))');
+  check('Ctrl+Enter runs the tool', await popup.evaluate(`document.getElementById('output').value`), 'aGk=');
+}
+
+async function theme(popup) {
+  console.log('theme');
+  const before = (await state(popup)).theme;
+  await popup.evaluate(`document.getElementById('theme-toggle').click()`);
+  const after = (await state(popup)).theme;
+  check('the toggle changes the theme', after !== before, true);
+  await popup.reload();
+  check('the theme survives a reload', (await state(popup)).theme, after);
+}
+
+const browser = await launch({ language: 'en', timeZone: 'UTC' });
+try {
+  const popup = await browser.open(POPUP);
+  check('the popup loads with one tab per tool', await popup.evaluate(`document.querySelectorAll('.tab-btn').length`), 9);
+  await tools(popup);
+  await panels(popup);
+  await history(popup);
+  await keyboard(popup);
+  await theme(popup);
+  check('no uncaught errors or console errors', popup.problems(), []);
+} finally {
+  await browser.close();
+}
+
+const korean = await launch({ language: 'ko' });
+try {
+  console.log('korean');
+  const popup = await korean.open(POPUP);
+  check('the popup follows the browser language', await popup.evaluate(`[document.documentElement.lang, document.querySelector('[data-tab="timestamp"]').textContent]`), ['ko', '시간']);
+} finally {
+  await korean.close();
+}
+
+console.log(failures ? `\n${failures} check(s) failed` : '\nall checks passed');
+process.exitCode = failures ? 1 : 0;
