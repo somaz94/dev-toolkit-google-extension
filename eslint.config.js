@@ -3,11 +3,13 @@ import js from '@eslint/js';
 const browser = {
   window: 'readonly',
   document: 'readonly',
+  location: 'readonly',
   Option: 'readonly',
   navigator: 'readonly',
   console: 'readonly',
   setTimeout: 'readonly',
   URL: 'readonly',
+  URLSearchParams: 'readonly',
   TextEncoder: 'readonly',
   TextDecoder: 'readonly',
   atob: 'readonly',

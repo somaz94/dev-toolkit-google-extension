@@ -18,6 +18,7 @@ const ui = {
   useOutput: $('use-output'),
   history: $('history'),
   theme: $('theme-toggle'),
+  openTab: $('open-tab'),
   modeSelector: document.querySelector('.mode-selector'),
   minify: $('minify'),
 };
@@ -170,6 +171,14 @@ function renderTheme(setting) {
 }
 
 ui.theme.addEventListener('click', () => renderTheme(themer.toggle()));
+
+const inTab = new URLSearchParams(location.search).has('page');
+document.body.classList.toggle('page', inTab);
+ui.openTab.hidden = inTab;
+ui.openTab.addEventListener('click', () => {
+  chrome.tabs.create({ url: chrome.runtime.getURL('src/popup/popup.html?page') });
+  window.close();
+});
 
 document.addEventListener('keydown', (event) => {
   const shortcut = shortcutFor(event, tabs.length);

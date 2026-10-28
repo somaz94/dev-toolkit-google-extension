@@ -77,6 +77,9 @@
   "themeDark": {
     "message": "테마: 어둡게 (누르면 시스템 설정 따름)"
   },
+  "openInTab": {
+    "message": "큰 입력을 위해 탭에서 열기"
+  },
   "copied": {
     "message": "클립보드에 복사했습니다!"
   },

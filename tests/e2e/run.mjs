@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 // Drives the real popup in Chrome for Testing: what the unit tests cannot see, from Chrome accepting the
 // manifest to the DOM glue in src/popup/ that sits outside the coverage gate.
+import { setTimeout as sleep } from 'node:timers/promises';
 import { launch, ORIGIN } from '../../hack/chrome.mjs';
 
 const POPUP = `${ORIGIN}/src/popup/popup.html`;
@@ -143,10 +144,14 @@ async function remembers(popup) {
   check('and keeps each tool\'s options', await popup.evaluate(`document.querySelector('[data-option="indent"]').value`), 'tab');
 }
 
+// A wrapped tab row pushes the last tool onto a second line, which the 520px popup has no room for.
+const oneRowOfTabs = (popup) => popup.evaluate(`document.querySelector('.tabs').getBoundingClientRect().height < 40`);
+
 const browser = await launch({ language: 'en', timeZone: 'UTC' });
 try {
   const popup = await browser.open(POPUP);
   check('the popup loads with one tab per tool', await popup.evaluate(`document.querySelectorAll('.tab-btn').length`), 9);
+  check('the tabs fit on one row', await oneRowOfTabs(popup), true);
   await tools(popup);
   await panels(popup);
   await history(popup);
@@ -155,8 +160,24 @@ try {
   await theme(popup);
   await remembers(popup);
   check('no uncaught errors or console errors', popup.problems(), []);
+  await openInTab(browser, popup);
 } finally {
   await browser.close();
+}
+
+async function openInTab(browser, popup) {
+  console.log('open in a tab');
+  // The click closes the page it runs in, as it closes the popup, so it is queued and awaited from here.
+  await popup.evaluate(`setTimeout(() => document.getElementById('open-tab').click(), 0)`);
+  await sleep(500);
+  const url = `${POPUP}?page`;
+  const urls = await browser.pageUrls();
+  check('the button opens the page in a tab and closes the popup', [urls.includes(url), urls.includes(POPUP)], [true, false]);
+  const page = await browser.open(url, { width: 1200, height: 900 });
+  const layout = await page.evaluate(`[document.body.classList.contains('page'), document.getElementById('open-tab').hidden, document.body.getBoundingClientRect().width > 600]`);
+  check('the tab uses the wide layout and has no open button of its own', layout, [true, true, true]);
+  check('the tab runs tools like the popup', (await runTool(page, { tab: 'url', mode: 'encode', input: 'a b' })).output, 'a%20b');
+  check('no errors in the tab', page.problems(), []);
 }
 
 const korean = await launch({ language: 'ko' });
@@ -164,6 +185,7 @@ try {
   console.log('korean');
   const popup = await korean.open(POPUP);
   check('the popup follows the browser language', await popup.evaluate(`[document.documentElement.lang, document.querySelector('[data-tab="timestamp"]').textContent]`), ['ko', '시간']);
+  check('the Korean tabs fit on one row too', await oneRowOfTabs(popup), true);
 } finally {
   await korean.close();
 }

@@ -16,6 +16,7 @@ Detailed description of all tools available in Dev Toolkit.
 - [Color Converter](#color-converter)
 - [Diff Viewer](#diff-viewer)
 - [Theme](#theme)
+- [Open in a Tab](#open-in-a-tab)
 - [Keyboard Shortcuts](#keyboard-shortcuts)
 - [Languages](#languages)
 
@@ -286,6 +287,12 @@ Follow the system appearance, or pick light or dark.
 - The button in the header cycles through **system** (🌓), **light** (☀️) and **dark** (🌙); hover it to see the current setting
 - **System** is the default, and follows the operating system as it switches between light and dark
 - The setting is saved in `localStorage`, and the popup opens in it without a flash of the other theme
+
+<br/>
+
+## Open in a Tab
+
+The ⤢ button in the header opens the same tools in a browser tab, with wide, tall fields for inputs too big for the popup. The tab shares the popup's history, theme and last tool, and needs no extra permission.
 
 <br/>
 

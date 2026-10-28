@@ -24,6 +24,9 @@
   --success-color: #4CAF50;
 }
 
+html {
+  background-color: var(--bg-color);
+}
 body {
   width: 520px;
   min-height: 400px;
@@ -136,12 +139,20 @@ button:disabled {
   cursor: default;
 }
 
-#theme-toggle {
-  padding: 8px;
+.header-actions {
+  display: flex;
+  align-items: center;
+}
+.icon-btn {
+  padding: 4px;
   font-size: 16px;
   background: transparent;
   border: none;
   cursor: pointer;
+  color: var(--text-color);
+}
+.icon-btn[hidden] {
+  display: none;
 }
 
 textarea.error {
@@ -236,4 +247,15 @@ textarea.error {
 
 .tool-options[hidden] {
   display: none;
+}
+
+/* The same page opened in a tab with ?page, for inputs too big for the popup. */
+body.page {
+  width: auto;
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 24px;
+}
+body.page textarea {
+  min-height: 35vh;
 }

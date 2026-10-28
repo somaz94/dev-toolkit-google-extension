@@ -19,6 +19,7 @@ Everything runs in the popup itself. It asks for no permissions, makes no networ
 - **UUID**: one v4 UUID, or a batch of up to 100
 - **Color**: HEX, RGB or HSL in, all three out
 - **Diff**: two texts aligned line by line, the way `git diff` does, with a summary
+- **Open in a tab** for inputs too big for the popup, with wide, tall fields
 - **Chain tools**: **Use as input** moves a result into the input, so a decoded Base64 string goes straight into the JSON formatter
 - **Keyboard first**: `Ctrl+Enter` runs, `Ctrl+Shift+C` copies the result, `Alt+1` to `Alt+9` switch tools (`Cmd` on macOS)
 - **Picks up where you left off**: the popup reopens on the last tool, mode and options, and keeps the last five inputs per tool, the latest restored and the rest one pick away
