@@ -111,6 +111,17 @@ async function theme(popup) {
   check('the theme survives a reload', (await state(popup)).theme, after);
 }
 
+async function remembers(popup) {
+  console.log('remembered state');
+  await runTool(popup, { tab: 'json', input: '{}', options: { indent: 'tab' } });
+  await popup.evaluate(`document.querySelector('[data-option="indent"]').dispatchEvent(new Event('change', { bubbles: true }))`);
+  await popup.evaluate(`document.querySelector('[data-tab="timestamp"]').click(); document.querySelector('[data-mode="decode"]').click()`);
+  await popup.reload();
+  const shown = await state(popup);
+  check('the popup reopens on the last tool and mode', [shown.tab, shown.mode], ['timestamp', 'decode']);
+  check('and keeps each tool\'s options', await popup.evaluate(`document.querySelector('[data-option="indent"]').value`), 'tab');
+}
+
 const browser = await launch({ language: 'en', timeZone: 'UTC' });
 try {
   const popup = await browser.open(POPUP);
@@ -120,6 +131,7 @@ try {
   await history(popup);
   await keyboard(popup);
   await theme(popup);
+  await remembers(popup);
   check('no uncaught errors or console errors', popup.problems(), []);
 } finally {
   await browser.close();

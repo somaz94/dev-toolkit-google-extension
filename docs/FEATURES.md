@@ -304,6 +304,7 @@ Toggle between light and dark themes.
 - The last 5 inputs per tool are saved in `localStorage` each time a tool runs
 - The latest one is restored when the popup opens and when you switch to a tool
 - **Recent inputs**, next to **Clear**, lists all five; pick one to put it back in the input
+- The popup reopens on the tool and mode you used last, with each tool's options (indentation, URL-safe Base64) as you left them
 - **Clear** empties both fields without restoring it
 
 <br/>

@@ -2,7 +2,7 @@
 
 A Chrome extension with the small converters developers reach for every day, in one popup: JSON, Base64, JWT, URL, timestamps, hashes, UUIDs, colors and a line diff.
 
-Everything runs in the popup itself. It asks for no permissions, makes no network requests and keeps nothing but your recent inputs and theme, on your own browser.
+Everything runs in the popup itself. It asks for no permissions, makes no network requests and keeps nothing but your recent inputs and settings, on your own browser.
 
 <img src="./store/screenshots/en/1.png" width="640" alt="Dev Toolkit formatting JSON">
 
@@ -20,7 +20,7 @@ Everything runs in the popup itself. It asks for no permissions, makes no networ
 - **Color**: HEX, RGB or HSL in, all three out
 - **Diff**: two texts aligned line by line, the way `git diff` does, with a summary
 - **Keyboard first**: `Ctrl+Enter` runs, `Ctrl+Shift+C` copies the result, `Alt+1` to `Alt+9` switch tools (`Cmd` on macOS)
-- **Input history**: the last five inputs per tool, the latest restored when you come back to it and the rest one pick away
+- **Picks up where you left off**: the popup reopens on the last tool, mode and options, and keeps the last five inputs per tool, the latest restored and the rest one pick away
 - A light and a dark theme, and **English and Korean**, following the browser language
 
 See [Features](docs/FEATURES.md) for input formats and examples.
@@ -98,7 +98,7 @@ None. The popup works entirely with what you type into it, and Chrome shows no p
 
 ## Privacy
 
-Dev Toolkit keeps your last few inputs per tool and your theme in the popup's `localStorage`, on this browser only, and sends nothing anywhere. See [Privacy](docs/PRIVACY.md).
+Dev Toolkit keeps your last few inputs per tool, your theme and the tool you used last in the popup's `localStorage`, on this browser only, and sends nothing anywhere. See [Privacy](docs/PRIVACY.md).
 
 <br/>
 

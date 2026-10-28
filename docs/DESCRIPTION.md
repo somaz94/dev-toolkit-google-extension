@@ -24,13 +24,14 @@ Tools
 
 Made for quick work
 - Ctrl+Enter runs, Ctrl+Shift+C copies the result, Alt+1 to Alt+9 switch tools
+- Reopens on the tool, mode and options you used last
 - The last five inputs of each tool are kept: the latest comes back when you return to it, and any of them is one pick away
 - A light and a dark theme
 - English and Korean, following the browser language
 
 Privacy
 - No permissions, no network requests, no analytics, no server
-- Only your recent inputs and theme are kept, in the popup's local storage on this browser
+- Only your recent inputs, your theme and the tool you used last are kept, in the popup's local storage on this browser
 - Open source: https://github.com/somaz94/dev-toolkit-google-extension
 ```
 

@@ -2,6 +2,7 @@ import { applyTranslations, t } from '../i18n.js';
 import { createHistory, historyLabel } from '../lib/history.js';
 import { inputError, labelsFor, runTool } from '../lib/run.js';
 import { shortcutFor } from '../lib/shortcuts.js';
+import { createState } from '../lib/state.js';
 import { createThemer, themeIcon } from '../lib/theme.js';
 import { getTool, TOOLS } from '../tools/index.js';
 import { minifyJSON } from '../utils/jsonFormatter.js';
@@ -24,6 +25,7 @@ const modeButtons = [...document.querySelectorAll('.mode-btn')];
 const panels = [...document.querySelectorAll('.tool-options')];
 
 const history = createHistory();
+const state = createState(TOOLS.map((each) => each.id));
 const themer = createThemer(document);
 let tool = TOOLS[0];
 let mode = 'encode';
@@ -37,10 +39,20 @@ function renderLabels() {
   for (const panel of panels) panel.hidden = panel.dataset.tool !== tool.id;
 }
 
+const optionInputs = (id) => [...(panels.find((panel) => panel.dataset.tool === id)?.querySelectorAll('[data-option]') ?? [])];
+
 function optionsOf(id) {
-  const panel = panels.find((candidate) => candidate.dataset.tool === id);
-  const inputs = panel ? [...panel.querySelectorAll('[data-option]')] : [];
-  return Object.fromEntries(inputs.map((input) => [input.dataset.option, input.type === 'checkbox' ? input.checked : input.value]));
+  return Object.fromEntries(optionInputs(id).map((input) => [input.dataset.option, input.type === 'checkbox' ? input.checked : input.value]));
+}
+
+function applyOptions(id, values) {
+  for (const input of optionInputs(id)) {
+    const value = values[input.dataset.option];
+    if (value === undefined) continue;
+    if (input.type === 'checkbox') input.checked = Boolean(value);
+    // A value the select no longer offers leaves its default.
+    else if (input.tagName !== 'SELECT' || [...input.options].some((option) => option.value === value)) input.value = value;
+  }
 }
 
 function showError(message) {
@@ -70,9 +82,17 @@ function resetFields(restoreHistory) {
 function selectTab(tab) {
   for (const other of tabs) other.classList.toggle('active', other === tab);
   tool = getTool(tab.dataset.tab);
+  state.save({ tool: tool.id });
   renderLabels();
   resetFields(true);
   renderHistory();
+}
+
+function selectMode(next) {
+  mode = next;
+  for (const button of modeButtons) button.classList.toggle('active', button.dataset.mode === mode);
+  state.save({ mode });
+  renderLabels();
 }
 
 function showToast(message) {
@@ -111,13 +131,9 @@ async function copy() {
 
 for (const tab of tabs) tab.addEventListener('click', () => selectTab(tab));
 
-for (const button of modeButtons) {
-  button.addEventListener('click', () => {
-    for (const other of modeButtons) other.classList.toggle('active', other === button);
-    mode = button.dataset.mode;
-    renderLabels();
-  });
-}
+for (const button of modeButtons) button.addEventListener('click', () => selectMode(button.dataset.mode));
+
+for (const panel of panels) panel.addEventListener('change', () => state.saveOptions(panel.dataset.tool, optionsOf(panel.dataset.tool)));
 
 ui.run.addEventListener('click', run);
 ui.copy.addEventListener('click', copy);
@@ -153,4 +169,7 @@ document.addEventListener('keydown', (event) => {
 
 applyTranslations();
 ui.theme.textContent = themeIcon(themer.current());
-selectTab(tabs.find((tab) => tab.classList.contains('active')) ?? tabs[0]);
+const saved = state.load();
+for (const [id, values] of Object.entries(saved.options)) applyOptions(id, values);
+selectMode(saved.mode);
+selectTab(tabs.find((tab) => tab.dataset.tab === saved.tool) ?? tabs[0]);

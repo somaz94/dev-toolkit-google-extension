@@ -8,6 +8,7 @@ Dev Toolkit does not collect, transmit or sell any data.
 
 - the last five inputs you ran in each tool, so the latest one is back when you return to that tool
 - your theme, light or dark
+- the tool, mode and options you used last, so the popup reopens on them
 
 Outputs, and inputs you never run, are not stored. When you sign a JWT, the secret on the input's second line is stored with that input like the rest of it, so prefer a throwaway secret for shared machines.
 
@@ -27,4 +28,4 @@ None. Dev Toolkit cannot read your tabs, pages, cookies or browsing history.
 
 ## Removing your data
 
-**Clear** empties the fields but keeps the history. To remove the history and the theme, remove the extension, or open the popup's DevTools (right-click the popup, **Inspect**) and run `localStorage.clear()`.
+**Clear** empties the fields but keeps the history. To remove the history, the theme and the last tool, remove the extension, or open the popup's DevTools (right-click the popup, **Inspect**) and run `localStorage.clear()`.
