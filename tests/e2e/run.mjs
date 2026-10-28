@@ -100,6 +100,13 @@ async function useOutput(popup) {
   await popup.evaluate(`document.getElementById('use-output').click()`);
   check('it moves the result into the input and clears the output', await popup.evaluate(`[document.getElementById('input').value, document.getElementById('output').value]`), ['{"a":1}', '']);
   check('and turns itself off until there is a new result', await disabled(), true);
+  await popup.evaluate(`document.querySelector('[data-tab="json"]').click()`);
+  check('the next tool takes the moved result instead of its own last input', (await state(popup)).input, '{"a":1}');
+  await popup.evaluate(`document.querySelector('[data-option="indent"]').value = '2'; document.getElementById('format').click()`);
+  await popup.evaluate('new Promise((resolve) => setTimeout(resolve, 200))');
+  check('and runs on it', await popup.evaluate(`document.getElementById('output').value`), '{\n  "a": 1\n}');
+  await popup.evaluate(`document.querySelector('[data-tab="url"]').click()`);
+  check('once used, switching tools restores each tool\'s last input again', (await state(popup)).input, 'a b');
   await runTool(popup, { tab: 'json', input: '{bad' });
   check('an error cannot be used as input', await disabled(), true);
 }

@@ -31,6 +31,8 @@ const state = createState(TOOLS.map((each) => each.id));
 const themer = createThemer(document);
 let tool = TOOLS[0];
 let mode = 'encode';
+// Set by Use as input, so the next tool takes the moved result instead of restoring its own last input.
+let carrying = false;
 
 function renderLabels() {
   const labels = labelsFor(tool, mode);
@@ -88,7 +90,9 @@ function selectTab(tab) {
   tool = getTool(tab.dataset.tab);
   state.save({ tool: tool.id });
   renderLabels();
-  resetFields(true);
+  if (carrying) showOutput('');
+  else resetFields(true);
+  carrying = false;
   renderHistory();
 }
 
@@ -113,6 +117,7 @@ function showToast(message) {
 }
 
 async function run() {
+  carrying = false;
   const input = ui.input.value;
   const rejected = inputError(tool, input);
   if (rejected) return showError(rejected);
@@ -141,17 +146,22 @@ for (const panel of panels) panel.addEventListener('change', () => state.saveOpt
 
 ui.run.addEventListener('click', run);
 ui.copy.addEventListener('click', copy);
-ui.clear.addEventListener('click', () => resetFields(false));
+ui.clear.addEventListener('click', () => {
+  carrying = false;
+  resetFields(false);
+});
 
 ui.useOutput.addEventListener('click', () => {
   ui.input.value = ui.output.value;
   showOutput('');
+  carrying = true;
   ui.input.focus();
 });
 
 ui.history.addEventListener('change', () => {
   const entry = history.load(tool.id)[Number(ui.history.value)];
   if (entry !== undefined) {
+    carrying = false;
     ui.input.value = entry;
     showOutput('');
   }
