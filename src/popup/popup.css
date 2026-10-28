@@ -85,9 +85,15 @@ textarea {
   display: flex;
   gap: 8px;
 }
+.actions button {
+  padding: 8px 12px;
+  white-space: nowrap;
+}
+/* Takes what the buttons leave, so a long action label never wraps. */
 .history {
+  flex: 0 1 180px;
+  min-width: 0;
   margin-left: auto;
-  max-width: 180px;
   padding: 0 8px;
   border: 1px solid var(--textarea-border);
   border-radius: 4px;
@@ -124,6 +130,10 @@ button:hover {
 
 button:active {
   opacity: 0.8;
+}
+button:disabled {
+  opacity: 0.5;
+  cursor: default;
 }
 
 #theme-toggle {

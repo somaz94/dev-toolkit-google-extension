@@ -59,6 +59,12 @@
   "clear": {
     "message": "Clear"
   },
+  "useAsInput": {
+    "message": "Use as input"
+  },
+  "useAsInputTitle": {
+    "message": "Move the result into the input, to run it through this or another tool"
+  },
   "historyLabel": {
     "message": "Recent inputs"
   },

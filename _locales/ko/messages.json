@@ -59,6 +59,12 @@
   "clear": {
     "message": "지우기"
   },
+  "useAsInput": {
+    "message": "입력으로"
+  },
+  "useAsInputTitle": {
+    "message": "결과를 입력칸으로 옮겨 이 도구나 다른 도구에 이어서 넣습니다"
+  },
   "historyLabel": {
     "message": "최근 입력"
   },

@@ -24,6 +24,7 @@ Tools
 
 Made for quick work
 - Ctrl+Enter runs, Ctrl+Shift+C copies the result, Alt+1 to Alt+9 switch tools
+- Use as input sends a result on to the next tool, such as a decoded Base64 string into the JSON formatter
 - Reopens on the tool, mode and options you used last
 - The last five inputs of each tool are kept: the latest comes back when you return to it, and any of them is one pick away
 - A light and a dark theme, following the system unless you pick one

@@ -91,6 +91,18 @@ async function history(popup) {
   check('picking a recent input puts it back', (await state(popup)).input, '{"first":1}');
 }
 
+async function useOutput(popup) {
+  console.log('use as input');
+  const disabled = () => popup.evaluate(`document.getElementById('use-output').disabled`);
+  await runTool(popup, { tab: 'base64', mode: 'decode', input: 'eyJhIjoxfQ==' });
+  check('a result can be used as input', await disabled(), false);
+  await popup.evaluate(`document.getElementById('use-output').click()`);
+  check('it moves the result into the input and clears the output', await popup.evaluate(`[document.getElementById('input').value, document.getElementById('output').value]`), ['{"a":1}', '']);
+  check('and turns itself off until there is a new result', await disabled(), true);
+  await runTool(popup, { tab: 'json', input: '{bad' });
+  check('an error cannot be used as input', await disabled(), true);
+}
+
 async function keyboard(popup) {
   console.log('keyboard');
   await key(popup, { key: '2', altKey: true });
@@ -138,6 +150,7 @@ try {
   await tools(popup);
   await panels(popup);
   await history(popup);
+  await useOutput(popup);
   await keyboard(popup);
   await theme(popup);
   await remembers(popup);

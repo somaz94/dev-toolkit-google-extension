@@ -15,6 +15,7 @@ const ui = {
   run: $('format'),
   copy: $('copy'),
   clear: $('clear'),
+  useOutput: $('use-output'),
   history: $('history'),
   theme: $('theme-toggle'),
   modeSelector: document.querySelector('.mode-selector'),
@@ -58,11 +59,13 @@ function applyOptions(id, values) {
 function showError(message) {
   ui.output.value = t('errorLine', message);
   ui.output.classList.add('error');
+  ui.useOutput.disabled = true;
 }
 
 function showOutput(value) {
   ui.output.value = value;
   ui.output.classList.remove('error');
+  ui.useOutput.disabled = !value;
 }
 
 function renderHistory() {
@@ -138,6 +141,12 @@ for (const panel of panels) panel.addEventListener('change', () => state.saveOpt
 ui.run.addEventListener('click', run);
 ui.copy.addEventListener('click', copy);
 ui.clear.addEventListener('click', () => resetFields(false));
+
+ui.useOutput.addEventListener('click', () => {
+  ui.input.value = ui.output.value;
+  showOutput('');
+  ui.input.focus();
+});
 
 ui.history.addEventListener('change', () => {
   const entry = history.load(tool.id)[Number(ui.history.value)];

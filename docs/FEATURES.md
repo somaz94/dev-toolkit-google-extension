@@ -306,6 +306,7 @@ Follow the system appearance, or pick light or dark.
 - **Recent inputs**, next to **Clear**, lists all five; pick one to put it back in the input
 - The popup reopens on the tool and mode you used last, with each tool's options (indentation, URL-safe Base64) as you left them
 - **Clear** empties both fields without restoring it
+- **Use as input** moves the result into the input, to run it again or through another tool: decode a Base64 string, then format the JSON inside it
 
 <br/>
 
