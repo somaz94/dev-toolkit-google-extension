@@ -2,50 +2,23 @@
 
 <br/>
 
-<br/>
+## Project
 
-## Project Structure
-
-- Chrome Extension (Manifest V3) for developer utilities
-- Zero external dependencies — native browser APIs only
-- Zero permissions required
-- ES6 modules without bundler
+- Chrome extension (Manifest V3): a popup of developer converters (JSON, Base64, JWT, URL, timestamp, hash, UUID, color, diff)
+- Plain ES modules, no bundler, no runtime dependencies; npm is for Jest and ESLint only
+- Architecture and the tool contract: [`docs/DEVELOPMENT.md`](docs/DEVELOPMENT.md)
 
 <br/>
 
-## Key Directories
+## Invariants
 
-- `src/popup/` — UI (popup.html, popup.js, popup.css)
-- `_locales/` — UI text per language (en default, ko); `src/i18n.js` looks it up
-- `src/utils/` — Utility modules (jsonFormatter, base64Utils, jwtDecoder, jwtEncoder, urlUtils, timestampUtils, hashUtils, uuidUtils, colorUtils, diffUtils, validator)
-- `tests/` — Unit tests (Jest)
-- `hack/` — Scripts (bump-version.sh)
-- `icons/` — Extension icons (16, 48, 128px)
-- `.github/workflows/` — CI/CD workflows
-
-<br/>
-
-## Features
-
-- JSON Formatter & Validator (indent selection, minify)
-- Base64 Encoder/Decoder
-- JWT Token Encoder/Decoder (HMAC-SHA256 signing)
-- URL Encoder/Decoder
-- Timestamp Converter (Unix timestamp <-> date)
-- Hash Generator (SHA-1, SHA-256, SHA-384, SHA-512)
-- UUID Generator (v4, batch up to 100)
-- Color Converter (HEX, RGB, HSL)
-- Diff Viewer (line-by-line comparison)
-- Dark mode with localStorage persistence
-- Keyboard shortcuts (Ctrl+Enter, Alt+1-9)
-- Input history (localStorage, last 5 per tab)
+- **Zero permissions and no network requests.** `tests/manifest.test.js` enforces the empty `permissions`
+- **A tool is one util in `src/utils/`, one module in `src/tools/` plus its registry entry, and one tab in `popup.html`.** The popup never branches on a tool id; `tests/tools.contract.test.js` checks the tabs match the registry
+- **Logic lives in `src/lib/`, `src/tools/` or `src/utils/`.** `src/popup/` is DOM glue and the only code outside the 90% coverage gate
+- **Every user-visible string is a `_locales` key**, reached through `t()`, `data-i18n` or a tool's `action` / `placeholder` / `modes`; `tests/locales.test.js` enforces key and placeholder parity and that every key is used
 
 <br/>
 
 ## Commands
 
-- `make test` — Run unit tests
-- `make test-cover` — Run tests with coverage
-- `make lint` — ESLint
-- `make package` — ZIP for Chrome Web Store
-- `make bump-version VERSION=x.x.x` — Update version
+`make help` lists every target. Before committing: `make lint` and `make test-cover` (the coverage threshold lives in `jest.config.js`). After changing the popup, `make store-screenshots` redraws the store images in `store/`.

@@ -1,121 +1,63 @@
 # Development
 
-Guide for developing, testing, and publishing Dev Toolkit.
-
-<br/>
-
-## Table of Contents
-
-- [Prerequisites](#prerequisites)
-- [Project Structure](#project-structure)
-- [Local Development](#local-development)
-- [Adding a New Tool](#adding-a-new-tool)
-- [Translations](#translations)
-- [Chrome Web Store Publishing](#chrome-web-store-publishing)
-- [CI/CD Workflows](#cicd-workflows)
-- [Conventions](#conventions)
-
 <br/>
 
 ## Prerequisites
 
-- Google Chrome browser
-- Text editor (VS Code recommended)
-- No build tools or package managers required
+- Google Chrome
+- Node.js and npm, for the tests, the linter and the store images only; the extension itself has no build step and no runtime dependencies
 
 <br/>
 
-## Project Structure
+## Local development
 
-```
-dev-toolkit-google-extension/
-├── manifest.json              # Chrome extension config (Manifest V3)
-├── _locales/                  # UI text per language (en, ko)
-├── src/
-│   ├── i18n.js                # Looks up UI text and fills the popup
-│   ├── popup/
-│   │   ├── popup.html         # UI markup (tabs, buttons, textareas)
-│   │   ├── popup.js           # Event handling & orchestration
-│   │   └── popup.css          # Light/dark theme styling
-│   └── utils/
-│       ├── jsonFormatter.js   # JSON formatting & validation
-│       ├── base64Utils.js     # Base64 encode/decode
-│       ├── jwtDecoder.js      # JWT token decoding
-│       ├── jwtEncoder.js      # JWT token encoding
-│       ├── urlUtils.js        # URL encode/decode
-│       ├── timestampUtils.js  # Unix timestamp <-> date conversion
-│       └── validator.js       # Input validation rules
-├── icons/                     # Extension icons (16, 48, 128px)
-├── docs/                      # Documentation
-└── .github/workflows/         # CI/CD
+```bash
+make install     # dev dependencies (Jest, ESLint)
+make test-cover  # unit tests; fails below the coverage threshold in jest.config.js
+make lint
+make help        # every target
 ```
 
-<br/>
-
-## Local Development
+Load the repository directory as an unpacked extension (`chrome://extensions/`, Developer mode, **Load unpacked**). After a change, click the reload button on the extension card and open the popup again. Right-click the popup and pick **Inspect** for its DevTools.
 
 <br/>
 
-### Load Extension
+## Architecture
 
-1. Clone the repository
-   ```bash
-   git clone https://github.com/somaz94/dev-toolkit-google-extension.git
-   cd dev-toolkit-google-extension
-   ```
+Plain ES modules, loaded straight from `src/` with no bundler. Each directory has one role:
 
-2. Open Chrome and navigate to `chrome://extensions/`
+| Directory | Role |
+|---|---|
+| `src/utils/` | The conversions themselves: one module per tool plus the input validator. Pure functions with no DOM |
+| `src/tools/` | One module per popup tab, describing the tool to the popup (labels, modes, validation, which util to run), plus the registry in `index.js` |
+| `src/lib/` | What the popup does around a tool, without touching the page: running a tool and turning the result into output or an error, input history, the theme, keyboard shortcuts |
+| `src/i18n.js` | `t()` and the helper that fills `data-i18n` attributes, over Chrome's `_locales` |
+| `src/popup/` | The popup page; DOM glue over `src/lib` and `src/tools` |
 
-3. Enable **Developer mode** (top right toggle)
-
-4. Click **Load unpacked** and select the project root directory
-
-5. The extension icon appears in the toolbar
+`src/popup/` is the only code outside the coverage gate, so logic belongs in `src/lib/`, `src/tools/` or `src/utils/`, where it is tested.
 
 <br/>
 
-### Hot Reload
+## Adding a tool
 
-After editing files:
-1. Go to `chrome://extensions/`
-2. Click the refresh icon on the Dev Toolkit card
-3. Close and reopen the extension popup to see changes
+1. Write the conversion in `src/utils/<name>Utils.js`. Throw an `Error` with a `t()` message for bad input; `runTool` shows it as an error
+2. Create `src/tools/<name>.js` exporting one object:
 
-<br/>
+   | Key | Required | Purpose |
+   |---|---|---|
+   | `id` | yes | Matches the tab's `data-tab` in `popup.html` |
+   | `action` | yes | Message key of the run button, or one per mode: `{ encode, decode }` |
+   | `placeholder` | yes | Message key of the input placeholder, or one per mode |
+   | `run(input, { mode, indent })` | yes | Returns the output, or a promise of it; may return `{ error }` instead of throwing |
+   | `modes` | no | `{ encode, decode }` message keys for the two mode buttons; without it the buttons are hidden |
+   | `validate(mode)` | no | The `validateInput` type to check before running, or `null` |
+   | `allowEmpty` | no | Runs on an empty input (UUID generates one) |
+   | `indentOptions` | no | Shows the indent select and **Minify** |
 
-### Debugging
-
-- Right-click the extension popup > **Inspect** to open DevTools
-- Check the Console tab for errors
-- Network tab is usually empty (no external requests)
-
-<br/>
-
-## Adding a New Tool
-
-1. **Create utility module** in `src/utils/`
-   ```javascript
-   // src/utils/myTool.js
-   export function encode(input) { ... }
-   export function decode(input) { ... }
-   ```
-
-2. **Add tab button** in `src/popup/popup.html`
-   ```html
-   <button class="tab-btn" data-tab="mytool">MyTool</button>
-   ```
-
-3. **Import and wire up** in `src/popup/popup.js`
-   - Add import at the top
-   - Add case in tab switch logic
-   - Add case in `formatBtn` click handler
-   - Add case in `updateButtonText()`
-
-4. **Add validation** in `src/utils/validator.js` if needed. Every message a user sees goes through `t()`; see [Translations](#translations)
-
-5. **Add tests** in `tests/myTool.test.js`
-
-6. **Update docs** (README.md, FEATURES.md, DEVELOPMENT.md)
+3. Add it to `TOOLS` in `src/tools/index.js` and a tab button to `src/popup/popup.html`, in the same position. The order is the `Alt+1` to `Alt+9` order, so there is room for nine tools
+4. Add its message keys to every `_locales/<language>/messages.json`
+5. Add `tests/<name>Utils.test.js`, and a case to `tests/run.test.js` when the tool has modes or validation. `tests/tools.contract.test.js` already checks every registered tool: its tab, its message keys and one label per mode
+6. Update the README features, [Features](FEATURES.md), the store description in [DESCRIPTION.md](DESCRIPTION.md) and `store/listing-ko.txt`
 
 <br/>
 
@@ -124,139 +66,28 @@ After editing files:
 The popup follows the browser language through Chrome's `_locales`: English is the default, Korean is in `_locales/ko/`.
 
 - A string is a key in `_locales/en/messages.json` and in every other `_locales/<language>/messages.json`, written as `{ "message": "..." }`. Positional values are `$1` to `$9`
-- In HTML, set `data-i18n="key"` for text or `data-i18n-placeholder` / `data-i18n-title` / `data-i18n-aria-label` for attributes; in JavaScript, call `t('key')` or `t('key', [value])` from `src/i18n.js`
-- `tests/locales.test.js` fails when a language misses a key, a placeholder differs, a key the code names does not exist, or a key is no longer used
+- In HTML, set `data-i18n="key"` for text or `data-i18n-placeholder` / `data-i18n-title` / `data-i18n-aria-label` for attributes; in JavaScript, call `t('key')` or `t('key', [value])` from `src/i18n.js`; in a tool module, name the key in `action`, `placeholder` or `modes`
+- `tests/locales.test.js` fails when a language misses a key, a placeholder differs, a key the code or a tool names does not exist, or a key is no longer used
 - In Jest, `tests/setup/chrome-i18n.cjs` serves the English catalog as `chrome.i18n`, so tests assert the English text
+- `tests/manifest.test.js` checks that the store summary (`extDescription`) fits the store's 132 characters in every language, and that both `make package` and the release workflow ship `_locales/`
 
 <br/>
 
-## Testing & Linting
-
-### Run Tests
-```bash
-make test                # Run all tests
-make test-cover          # Run tests with coverage report
-```
-
-### Linting
-```bash
-make lint                # Check code style
-make lint-fix            # Auto-fix lint issues
-```
-
-### Makefile Commands
-```bash
-make help                # Show all available commands
-make install             # Install dev dependencies
-make test                # Run unit tests
-make test-cover          # Run tests with coverage
-make lint                # ESLint
-make package             # ZIP for Chrome Web Store
-make version             # Show current version
-make bump-version VERSION=1.1.0  # Update version
-make clean               # Remove build artifacts
-```
-
-<br/>
-
-## Chrome Web Store Publishing
-
-<br/>
-
-### First-time Setup
-
-1. Register at [Chrome Web Store Developer Dashboard](https://chrome.google.com/webstore/devconsole) ($5 one-time fee)
-2. Note: South Korea is not available as a seller country. Use an alternative address if needed.
-
-<br/>
-
-### Package the Extension
+## Publishing to the Chrome Web Store
 
 ```bash
-# Create ZIP file (exclude unnecessary files)
-zip -r dev-toolkit.zip \
-  manifest.json \
-  _locales/ \
-  src/ \
-  icons/ \
-  LICENSE \
-  README.md \
-  -x "*.DS_Store" "*.git*"
+make bump-version VERSION=1.3.0
+make package     # writes dist/dev-toolkit.zip
 ```
 
-<br/>
+Upload the ZIP in the [Chrome Web Store Developer Dashboard](https://chrome.google.com/webstore/devconsole). The listing text, the graphic assets, the Privacy tab answers and the reviewer test instructions are in [DESCRIPTION.md](DESCRIPTION.md); link [Privacy](PRIVACY.md) as the privacy policy. A tag push (`v*.*.*`) also builds the ZIP and attaches it to the GitHub release.
 
-### Upload and Submit
-
-1. Go to [Developer Dashboard](https://chrome.google.com/webstore/devconsole)
-2. Click **New Item** (or select existing item for updates)
-3. Upload the ZIP file
-4. Fill in store listing:
-   - Description
-   - Screenshots (at least 1, 1280x800 or 640x400)
-   - Icons (128x128 required)
-   - Category: Developer Tools
-   - Language: English, plus a Korean listing (the package ships `_locales/ko`)
-5. Click **Submit for Review**
-6. Review typically takes 1-3 business days
-
-<br/>
-
-### Common Rejection Reasons
-
-- **Unnecessary permissions**: Only request permissions you actually use. Remove `activeTab` if not needed.
-  ```json
-  // manifest.json - keep permissions minimal
-  "permissions": []
-  ```
-- **Missing privacy policy**: Required if collecting any user data
-- **Misleading description**: Store listing must match actual functionality
-
-<br/>
-
-### Updating an Existing Extension
-
-1. Update `version` in `manifest.json`
-2. Create new ZIP
-3. Dashboard > Select extension > **Package** tab > **Upload new package**
-4. Submit for review
-
-<br/>
-
-## CI/CD Workflows
-
-| Workflow | Trigger | Description |
-|----------|---------|-------------|
-| `gitlab-mirror.yml` | Push to main | Mirror repo to GitLab |
-| `release.yml` | Tag push (`v*.*.*`) | Package ZIP and create GitHub Release |
-| `changelog-generator.yml` | PR merged / Release | Auto-generate CHANGELOG.md |
-| `contributors.yml` | Push to main | Update contributors list |
-| `stale-issues.yml` | Daily cron | Close stale issues after 30+7 days |
-| `issue-greeting.yml` | Issue opened | Greet first-time contributors |
+`make store-screenshots` redraws `store/screenshots/` and `store/promo/` in English and Korean. It loads the extension into Chrome for Testing (branded Chrome ignores `--load-extension`), downloaded into `~/.cache/dev-toolkit-store` on the first run; set `DEV_TOOLKIT_CHROME` to use a Chromium you already have. It needs Node 22 or later.
 
 <br/>
 
 ## Conventions
 
-<br/>
-
-### Commit Messages
-
-Follow [Conventional Commits](https://www.conventionalcommits.org/):
-
-```
-feat: add timestamp converter
-fix: base64 decoding error on special chars
-chore: update workflows
-docs: add development guide
-```
-
-<br/>
-
-### Code Style
-
-- ES6 module syntax (`import`/`export`)
-- No external dependencies
-- Native browser APIs only
-- 2-space indentation
-- Single quotes for strings
+- Commit messages follow [Conventional Commits](https://www.conventionalcommits.org/), in English
+- Code comments in English, only where the reason is not obvious from the code
+- No runtime dependencies and no permissions; anything that would need one is out of scope

@@ -40,9 +40,9 @@ Format and validate JSON strings with proper indentation.
 ```
 
 **Details:**
-- 2-space indentation
-- Validates JSON syntax before formatting
-- Displays parsing errors with detailed messages
+- Indent with 2 spaces, 4 spaces or a tab, picked next to the input
+- **Minify** puts the whole document back on one line
+- Validates JSON syntax before formatting and shows the parser's message when it fails
 - Handles nested objects and arrays
 
 <br/>
@@ -62,9 +62,8 @@ SGVsbG8gV29ybGQh → Hello World!
 ```
 
 **Details:**
-- Uses native `btoa()` / `atob()` APIs
-- Validates Base64 format with regex before decoding
-- Supports standard Base64 alphabet
+- Uses native `btoa()` / `atob()` APIs, so the input is Latin-1 text
+- Checks the input against the standard Base64 alphabet before decoding
 
 <br/>
 
@@ -84,14 +83,18 @@ Signature: (displayed as-is)
 
 **Encode:**
 ```
-Input: { "sub": "1234567890", "name": "John" }
-Output: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjM0...DEMO_SIGNATURE
+Input:
+{"sub":"1234567890","name":"John"}
+my-secret-key
+
+Output:
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4ifQ.fGbwrKYzoMBvZbgTPJRSr4S4lSy7wDU-6rnS4wL865g
 ```
 
 **Details:**
-- Decodes all three JWT parts (header, payload, signature)
-- Handles Base64Url encoding (URL-safe Base64 with padding)
-- Encoding uses demo signature (not cryptographic)
+- Decodes all three JWT parts (header, payload, signature); the signature is shown, not verified
+- Handles Base64Url encoding (URL-safe Base64 without padding)
+- Encoding signs with HMAC-SHA256 through the Web Crypto API. The payload is the first line, as one line of JSON, and the secret the optional second line (`secret` when left out)
 
 <br/>
 
@@ -111,7 +114,7 @@ https%3A%2F%2Fexample.com%3Fname%3DJohn%20Doe → https://example.com?name=John 
 
 **Details:**
 - Uses `encodeURIComponent()` / `decodeURIComponent()`
-- Validates URL structure before encoding
+- Input starting with `http` is checked to be a valid URL before encoding
 
 <br/>
 
@@ -258,6 +261,7 @@ new line
 - Separate two texts with `---` or `===` on its own line
 - Shows added (`+`), removed (`-`), and unchanged lines
 - Summary with counts at the top
+- Lines are paired by position, not aligned, so a line inserted near the top marks the lines below it as changed
 
 <br/>
 
@@ -277,15 +281,15 @@ Toggle between light and dark themes.
 |----------|--------|
 | `Ctrl+Enter` (or `Cmd+Enter`) | Execute conversion |
 | `Ctrl+Shift+C` (or `Cmd+Shift+C`) | Copy result |
-| `Alt+1` ~ `Alt+9` | Switch tabs (JSON, Base64, JWT, URL, Time, Hash, UUID, Color, Diff) |
+| `Alt+1` ~ `Alt+9` | Switch to the tool in that position, counting tabs from the left |
 
 <br/>
 
 ## Input History
 
-- Last 5 inputs per tab are saved in `localStorage`
-- Automatically restored when switching tabs
-- Clear button resets without restoring history
+- The last 5 inputs per tool are saved in `localStorage` each time a tool runs
+- The latest one is restored when the popup opens and when you switch to a tool
+- **Clear** empties both fields without restoring it
 
 <br/>
 

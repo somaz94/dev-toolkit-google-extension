@@ -1,79 +1,89 @@
-# Chrome Web Store Description
+# Chrome Web Store Listing
 
-This file contains the store listing description for Dev Toolkit.
-
-<br/>
-
-## Title
-
-Dev Toolkit - JSON, Base64, JWT, URL, Hash, UUID & More
+The text pasted into the [Chrome Web Store Developer Dashboard](https://chrome.google.com/webstore/devconsole) for Dev Toolkit. The item name and summary come from `name` and the `_locales` description, so they are not repeated here.
 
 <br/>
 
-## Description
+## Store listing
 
-A powerful developer toolkit with 9 essential tools - all in one place, all offline, all free.
+### Description
 
-Key Features:
+```text
+Dev Toolkit puts the small converters developers reach for every day in one popup, and runs every one of them offline in your browser.
 
-- JSON Formatter & Validator
-  Format and validate JSON with configurable indentation (2/4/tab). Minify support included.
+Tools
+- JSON: format with 2 spaces, 4 spaces or tabs, minify, and see where invalid JSON breaks
+- Base64: encode and decode
+- JWT: decode a token into its header, payload and signature, or sign a payload with HMAC-SHA256
+- URL: percent-encode and decode
+- Timestamp: Unix seconds or milliseconds to UTC and local time, and any date, or "now", back to a timestamp
+- Hash: SHA-1, SHA-256, SHA-384 and SHA-512 at once
+- UUID: one v4 UUID, or up to 100 at once
+- Color: HEX, RGB or HSL in, all three out
+- Diff: two texts compared line by line, with a summary
 
-- Base64 Encoder/Decoder
-  Convert text to Base64 and back. Format validation included.
+Made for quick work
+- Ctrl+Enter runs, Ctrl+Shift+C copies the result, Alt+1 to Alt+9 switch tools
+- The last five inputs of each tool come back when you return to it
+- A light and a dark theme
+- English and Korean, following the browser language
 
-- JWT Token Tools
-  Decode JWT tokens to view header, payload, and signature. Encode with HMAC-SHA256 real signing.
-
-- URL Encoder/Decoder
-  Handle special characters in URLs. Encode/decode query parameters.
-
-- Timestamp Converter
-  Convert Unix timestamps (seconds/milliseconds) to dates and back. UTC and local time display. Supports "now" keyword.
-
-- Hash Generator
-  Generate SHA-1, SHA-256, SHA-384, SHA-512 hashes instantly using Web Crypto API.
-
-- UUID Generator
-  Generate UUID v4 identifiers. Batch generation up to 100 at once.
-
-- Color Converter
-  Convert between HEX, RGB, and HSL formats. Auto-detects input format.
-
-- Diff Viewer
-  Compare two texts line by line. Shows added, removed, and unchanged lines with summary.
-
-Additional Features:
-- Dark Mode Support
-- Keyboard Shortcuts (Ctrl+Enter to convert, Alt+1-9 for tabs)
-- Input History (last 5 per tab, auto-restored)
-- Copy to Clipboard with Toast Notification
-- Simple and Clean Interface
-- Instant Results
-- No External API Calls - Works 100% Offline
-
-Perfect for:
-- Web Developers
-- API Testers
-- Security Engineers
-- DevOps Teams
-- Anyone working with encoding, formatting, or data conversion
-
-Privacy & Security:
-- Zero permissions required
-- No data collection
-- All processing happens locally in your browser
-- No external server communication
+Privacy
+- No permissions, no network requests, no analytics, no server
+- Only your recent inputs and theme are kept, in the popup's local storage on this browser
 - Open source: https://github.com/somaz94/dev-toolkit-google-extension
+```
 
-<br/>
-
-## Category
+### Category
 
 Developer Tools
 
+### Language
+
+English is the default listing. The Korean listing uses [`store/listing-ko.txt`](../store/listing-ko.txt) as its description; that text is kept outside `docs/` because it is translated product copy, like `_locales/ko`, not documentation. Keep it in step with the English description above.
+
+### Graphic assets
+
+Upload `store/screenshots/en/` to the default listing and `store/screenshots/ko/` as the Korean localized screenshots, in file order, and `store/promo/small-<language>.png` as the small promo tile of each. `make store-screenshots` redraws all of them from the extension itself (the inputs and the slide copy are in `hack/store-screenshots.mjs` and `hack/store-slide.html`); run it after a change to the popup.
+
+### Additional fields
+
+| Field | Value |
+|---|---|
+| Homepage URL | `https://github.com/somaz94/dev-toolkit-google-extension` |
+| Support URL | `https://github.com/somaz94/dev-toolkit-google-extension/issues` |
+| Mature content | No |
+
 <br/>
 
-## Language
+## Privacy practices
 
-English
+### Single purpose
+
+```text
+Convert, encode, decode and format developer data (JSON, Base64, JWT, URL, timestamps, hashes, UUIDs, colors and text diffs) that the user types into the popup.
+```
+
+### Permission justification
+
+None; the extension requests no permissions and no host access.
+
+### Remote code
+
+No. Every script ships in the package.
+
+### Data usage
+
+Check none of the data types, then certify all three statements (not sold to third parties, not used for purposes unrelated to the single purpose, not used for creditworthiness or lending).
+
+### Privacy policy URL
+
+`https://github.com/somaz94/dev-toolkit-google-extension/blob/main/docs/PRIVACY.md`
+
+<br/>
+
+## Test instructions
+
+```text
+No account or setup is needed. Open the popup, paste {"a":1} into the JSON tab and press Format JSON; the other tabs work the same way.
+```
