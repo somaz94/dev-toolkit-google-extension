@@ -39,12 +39,20 @@ describe('validateInput', () => {
     expect(validateInput('bad.token.!!!', 'jwt').isValid).toBe(false);
   });
 
-  test('validates JSON payload for JWT encode', () => {
-    expect(validateInput('{"sub":"123"}', 'jwt').isValid).toBe(true);
+  test('invalidates a JWT token without three parts', () => {
+    expect(validateInput('{"sub":"123"}', 'jwt').isValid).toBe(false);
+  });
+
+  test('validates JSON payload for JWT encode, with or without a secret line', () => {
+    expect(validateInput('{"sub":"123"}', 'jwtPayload').isValid).toBe(true);
+    expect(validateInput('{"sub":"123"}\nmy-secret', 'jwtPayload').isValid).toBe(true);
+    expect(validateInput('{"email":"a@b.com"}', 'jwtPayload').isValid).toBe(true);
   });
 
   test('invalidates bad JSON for JWT encode', () => {
-    expect(validateInput('not json', 'jwt').isValid).toBe(false);
+    const result = validateInput('not json', 'jwtPayload');
+    expect(result.isValid).toBe(false);
+    expect(result.error).toBeDefined();
   });
 
   // URL validation

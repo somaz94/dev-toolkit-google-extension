@@ -27,25 +27,25 @@ export function validateInput(input, type) {
       return { isValid: true };
 
     case 'jwt':
-      if (input.includes('.')) {
-        if (!/^[A-Za-z0-9-_]+\.[A-Za-z0-9-_]+\.[A-Za-z0-9-_]*$/.test(input)) {
-          return {
-            isValid: false,
-            error: t('validateJwt')
-          };
-        }
-      } else {
-        try {
-          JSON.parse(input);
-          return { isValid: true };
-        } catch (e) {
-          return {
-            isValid: false,
-            error: t('validateJwtPayload', e.message)
-          };
-        }
+      if (!/^[A-Za-z0-9-_]+\.[A-Za-z0-9-_]+\.[A-Za-z0-9-_]*$/.test(input.trim())) {
+        return {
+          isValid: false,
+          error: t('validateJwt')
+        };
       }
       return { isValid: true };
+
+    // The payload is the first line; encodeJWT reads the secret from the second.
+    case 'jwtPayload':
+      try {
+        JSON.parse(input.trim().split('\n')[0]);
+        return { isValid: true };
+      } catch (e) {
+        return {
+          isValid: false,
+          error: t('validateJwtPayload', e.message)
+        };
+      }
 
     case 'url':
       if (input.startsWith('http')) {

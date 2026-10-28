@@ -53,12 +53,16 @@ describe('runTool', () => {
   });
 
   test('round-trips a JWT and reports a bad one as an error', async () => {
-    const { output: token } = await runTool(getTool('jwt'), '{"sub":"1"}', { mode: 'encode' });
+    const { output: token } = await runTool(getTool('jwt'), '{"sub":"1"}\nkey', { mode: 'encode' });
     const { output } = await runTool(getTool('jwt'), token, { mode: 'decode' });
     expect(output).toMatch(/^Header:\n[\s\S]*"HS256"[\s\S]*\n\nPayload:\n[\s\S]*"sub": "1"[\s\S]*\n\nSignature:\n\S+$/);
     expect(await runTool(getTool('jwt'), 'abc.def.ghi', { mode: 'decode' })).toEqual({ error: 'Invalid JWT token' });
   });
 
+  test('encodes a payload whose values contain dots', async () => {
+    const { output } = await runTool(getTool('jwt'), '{"email":"a@b.com"}', { mode: 'encode' });
+    expect(output.split('.')).toHaveLength(3);
+  });
 
   test('passes an encoder error through', async () => {
     const tool = { run: async () => ({ error: 'nope' }) };

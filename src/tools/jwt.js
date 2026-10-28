@@ -6,7 +6,7 @@ export default {
   modes: { encode: 'modeEncode', decode: 'modeDecode' },
   action: { encode: 'actionEncodeJwt', decode: 'actionDecodeJwt' },
   placeholder: 'inputPlaceholder',
-  validate: () => 'jwt',
+  validate: (mode) => (mode === 'encode' ? 'jwtPayload' : 'jwt'),
   async run(input, { mode }) {
     if (mode === 'encode') return encodeJWT(input);
     const decoded = decodeJWT(input);
