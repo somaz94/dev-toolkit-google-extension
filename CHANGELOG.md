@@ -2,6 +2,51 @@
 
 All notable changes to this project will be documented in this file.
 
+## [v1.3.0](https://github.com/somaz94/dev-toolkit-google-extension/compare/v1.2.1...v1.3.0) (2026-10-28)
+
+### Features
+
+- open the tools in a tab for inputs too big for the popup ([fa293f8](https://github.com/somaz94/dev-toolkit-google-extension/commit/fa293f89388d5f126180ee86ed133005b05f6034))
+- send a result on to the input with Use as input ([0cd7c19](https://github.com/somaz94/dev-toolkit-google-extension/commit/0cd7c194941bcd0f48192d79afadeced5599466d))
+- follow the system theme unless light or dark is picked ([281e88f](https://github.com/somaz94/dev-toolkit-google-extension/commit/281e88ff4f153645867e21a2abe682700a0ec3a3))
+- reopen the popup on the last tool, mode and options ([f389de1](https://github.com/somaz94/dev-toolkit-google-extension/commit/f389de14ccc4c22e570b31afbb9b925004171d56))
+- pick any of the last five inputs from a recent list ([3071e89](https://github.com/somaz94/dev-toolkit-google-extension/commit/3071e89e82509b5099bd8bcf43f4fa2cf82bd7fa))
+- show JWT time claims as dates and check HS256 signatures ([60672c1](https://github.com/somaz94/dev-toolkit-google-extension/commit/60672c1963388eb9150d9cad3b2690fd66d55684))
+- align the diff with Myers' algorithm instead of by line position ([663c56d](https://github.com/somaz94/dev-toolkit-google-extension/commit/663c56d71deb63a1e27c7d82abc5257d950e4162))
+- encode Base64 as UTF-8 with an optional URL-safe alphabet ([340e7a0](https://github.com/somaz94/dev-toolkit-google-extension/commit/340e7a06fae8779f66f47670f5961a57187fab77))
+
+### Bug Fixes
+
+- keep a result sent with Use as input when switching tools ([4d8aaed](https://github.com/somaz94/dev-toolkit-google-extension/commit/4d8aaed97eccdc695bb3e9e38c8a11cc360b1f34))
+- list every tool in the extension description ([987c965](https://github.com/somaz94/dev-toolkit-google-extension/commit/987c965a3bf4afdc9ee8319a252ddfb4fb0d50ec))
+- keep the text areas inside the popup width ([9ab1e40](https://github.com/somaz94/dev-toolkit-google-extension/commit/9ab1e40d6da117ba2b4c7101bbe2494565ce4a16))
+- accept a secret line and dotted values when encoding a JWT ([5b6c9fe](https://github.com/somaz94/dev-toolkit-google-extension/commit/5b6c9fe70f3eeef56ff9a0986a97c1a53db0bccc))
+
+### Code Refactoring
+
+- split the popup into per-tool modules and a tool registry ([3271c81](https://github.com/somaz94/dev-toolkit-google-extension/commit/3271c81323e723a37a154d491ba99942ae29cb2a))
+
+### Documentation
+
+- rewrite the README and docs, and add a privacy policy ([f910386](https://github.com/somaz94/dev-toolkit-google-extension/commit/f9103860a47dad8cc090f3a683e26cf599274981))
+
+### Tests
+
+- drive the real popup in Chrome for Testing with make e2e ([9109995](https://github.com/somaz94/dev-toolkit-google-extension/commit/910999593e1d01d7d24661d073da6d791a53fcf9))
+
+### Chores
+
+- bump version to 1.3.0 ([25b2c36](https://github.com/somaz94/dev-toolkit-google-extension/commit/25b2c361843fd2d27762db03629808b2e2595cf9))
+- redraw the store screenshots for the new popup controls ([1970b3d](https://github.com/somaz94/dev-toolkit-google-extension/commit/1970b3d2cff7dd46043cf5b3f099557124c738ec))
+- move to ESLint 10 flat config and Jest 30 with a 90% gate ([9903749](https://github.com/somaz94/dev-toolkit-google-extension/commit/9903749d484b456974cd6de2b53f7a183bc165e2))
+- add Chrome Web Store screenshots and their generator ([a9252b1](https://github.com/somaz94/dev-toolkit-google-extension/commit/a9252b18ce5969e1d2ea58501fce26540311f077))
+
+### Contributors
+
+- somaz
+
+<br/>
+
 ## [v1.2.1](https://github.com/somaz94/dev-toolkit-google-extension/compare/v1.2.0...v1.2.1) (2026-10-27)
 
 ### Bug Fixes
