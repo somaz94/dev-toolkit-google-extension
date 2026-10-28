@@ -1,0 +1,63 @@
+<!doctype html>
+<html>
+<meta charset="utf-8">
+<style>
+  * { box-sizing: border-box; }
+  html, body { margin: 0; overflow: hidden; }
+  body {
+    font-family: system-ui, -apple-system, "Apple SD Gothic Neo", sans-serif;
+    background: linear-gradient(135deg, #111a27 0%, #172131 45%, #1e2a3b 100%);
+    color: #fff; position: relative; width: 1280px; height: 800px;
+  }
+  .copy { position: absolute; left: 72px; top: 50%; transform: translateY(-50%); width: 390px; }
+  h1 { margin: 0 0 22px; font-size: 44px; line-height: 1.16; letter-spacing: -0.02em; font-weight: 800; word-break: keep-all; }
+  h1 em { font-style: normal; color: #ff7a6b; }
+  p { margin: 0; font-size: 19px; line-height: 1.62; color: #b6c1ce; word-break: keep-all; }
+  .shot { position: absolute; left: 571px; width: 575px; top: 50%; transform: translateY(-50%); box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45); border-radius: 12px; overflow: hidden; }
+  .shot img { display: block; width: 100%; }
+
+  body.promo { width: 440px; height: 280px; }
+  .promo .tile { position: absolute; inset: 0; display: flex; align-items: center; gap: 28px; padding: 0 36px; }
+  .promo .tile img { width: 104px; height: 104px; }
+  .promo .tile b { display: block; font-size: 30px; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 10px; }
+  .promo .tile span { display: block; font-size: 15px; line-height: 1.5; color: #b6c1ce; word-break: keep-all; }
+</style>
+<body>
+<script>
+// One template for every language; the popup captures (popup-<n>.png) and icon.png sit next to this file.
+const COPY = {
+  en: {
+    slides: [
+      { title: 'Nine developer tools, <em>one popup</em>', body: 'JSON, Base64, JWT, URL, timestamps, hashes, UUIDs, colors and diff. Everything runs offline in your browser.' },
+      { title: 'Decode <em>JWTs</em> at a glance', body: 'See the header and payload of any token, or sign a new one with HMAC-SHA256.' },
+      { title: 'Timestamps, <em>both ways</em>', body: 'Unix seconds or milliseconds to UTC and local time, and dates back to timestamps.' },
+      { title: 'Compare two texts, <em>line by line</em>', body: 'Added, removed and unchanged lines with a summary. In a light or a dark theme.' },
+    ],
+    promo: 'JSON, JWT, Base64 and more.<br>All offline.',
+  },
+  ko: {
+    slides: [
+      { title: '개발자 도구 아홉 가지를 <em>팝업 하나</em>에', body: 'JSON, Base64, JWT, URL, 타임스탬프, 해시, UUID, 색상, 비교. 모두 브라우저 안에서 오프라인으로 동작합니다.' },
+      { title: '<em>JWT</em>를 한눈에', body: '토큰의 헤더와 페이로드를 바로 확인하고, HMAC-SHA256으로 새 토큰에 서명합니다.' },
+      { title: '타임스탬프를 <em>양방향</em>으로', body: 'Unix 초나 밀리초를 UTC와 현지 시각으로, 날짜를 다시 타임스탬프로 바꿉니다.' },
+      { title: '두 텍스트를 <em>줄 단위</em>로 비교', body: '추가된 줄, 삭제된 줄, 그대로인 줄을 요약과 함께 보여 줍니다. 밝은 테마와 어두운 테마를 지원합니다.' },
+    ],
+    promo: 'JSON, JWT, Base64 외 여러 도구.<br>모두 오프라인에서.',
+  },
+};
+
+const params = new URLSearchParams(location.search);
+const lang = params.get('lang') ?? 'en';
+const copy = COPY[lang];
+document.documentElement.lang = lang;
+if (params.has('promo')) {
+  document.body.className = 'promo';
+  document.body.insertAdjacentHTML('beforeend', `<div class="tile"><img src="icon.png" alt=""><div><b>Dev Toolkit</b><span>${copy.promo}</span></div></div>`);
+} else {
+  const n = Number(params.get('n') ?? 0);
+  document.body.insertAdjacentHTML('beforeend', `<div class="copy"><h1>${copy.slides[n].title}</h1><p>${copy.slides[n].body}</p></div>
+    <div class="shot"><img src="popup-${n + 1}.png" alt=""></div>`);
+}
+</script>
+</body>
+</html>
