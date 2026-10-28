@@ -59,6 +59,9 @@
   "clear": {
     "message": "지우기"
   },
+  "historyLabel": {
+    "message": "최근 입력"
+  },
   "copied": {
     "message": "클립보드에 복사했습니다!"
   },

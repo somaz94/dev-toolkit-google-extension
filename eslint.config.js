@@ -3,6 +3,7 @@ import js from '@eslint/js';
 const browser = {
   window: 'readonly',
   document: 'readonly',
+  Option: 'readonly',
   navigator: 'readonly',
   console: 'readonly',
   setTimeout: 'readonly',

@@ -20,7 +20,7 @@ Everything runs in the popup itself. It asks for no permissions, makes no networ
 - **Color**: HEX, RGB or HSL in, all three out
 - **Diff**: two texts aligned line by line, the way `git diff` does, with a summary
 - **Keyboard first**: `Ctrl+Enter` runs, `Ctrl+Shift+C` copies the result, `Alt+1` to `Alt+9` switch tools (`Cmd` on macOS)
-- **Input history**: the last five inputs per tool, restored when you come back to it
+- **Input history**: the last five inputs per tool, the latest restored when you come back to it and the rest one pick away
 - A light and a dark theme, and **English and Korean**, following the browser language
 
 See [Features](docs/FEATURES.md) for input formats and examples.

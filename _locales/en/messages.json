@@ -59,6 +59,9 @@
   "clear": {
     "message": "Clear"
   },
+  "historyLabel": {
+    "message": "Recent inputs"
+  },
   "copied": {
     "message": "Copied to clipboard!"
   },

@@ -1,5 +1,5 @@
 import { applyTranslations, t } from '../i18n.js';
-import { createHistory } from '../lib/history.js';
+import { createHistory, historyLabel } from '../lib/history.js';
 import { inputError, labelsFor, runTool } from '../lib/run.js';
 import { shortcutFor } from '../lib/shortcuts.js';
 import { createThemer, themeIcon } from '../lib/theme.js';
@@ -14,6 +14,7 @@ const ui = {
   run: $('format'),
   copy: $('copy'),
   clear: $('clear'),
+  history: $('history'),
   theme: $('theme-toggle'),
   modeSelector: document.querySelector('.mode-selector'),
   minify: $('minify'),
@@ -52,6 +53,15 @@ function showOutput(value) {
   ui.output.classList.remove('error');
 }
 
+function renderHistory() {
+  const entries = history.load(tool.id);
+  const placeholder = new Option(t('historyLabel'), '');
+  placeholder.disabled = true;
+  ui.history.replaceChildren(placeholder, ...entries.map((entry, index) => new Option(historyLabel(entry), String(index))));
+  ui.history.value = '';
+  ui.history.hidden = entries.length === 0;
+}
+
 function resetFields(restoreHistory) {
   ui.input.value = restoreHistory ? history.last(tool.id) : '';
   showOutput('');
@@ -62,6 +72,7 @@ function selectTab(tab) {
   tool = getTool(tab.dataset.tab);
   renderLabels();
   resetFields(true);
+  renderHistory();
 }
 
 function showToast(message) {
@@ -82,6 +93,7 @@ async function run() {
   const rejected = inputError(tool, input);
   if (rejected) return showError(rejected);
   history.save(tool.id, input);
+  renderHistory();
   const result = await runTool(tool, input, { mode, options: optionsOf(tool.id) });
   if (result.error) showError(result.error);
   else showOutput(result.output);
@@ -110,6 +122,16 @@ for (const button of modeButtons) {
 ui.run.addEventListener('click', run);
 ui.copy.addEventListener('click', copy);
 ui.clear.addEventListener('click', () => resetFields(false));
+
+ui.history.addEventListener('change', () => {
+  const entry = history.load(tool.id)[Number(ui.history.value)];
+  if (entry !== undefined) {
+    ui.input.value = entry;
+    showOutput('');
+  }
+  ui.history.value = '';
+  ui.input.focus();
+});
 
 ui.minify.addEventListener('click', () => {
   if (!ui.input.value.trim()) return showError(t('errorEmpty'));

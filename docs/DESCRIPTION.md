@@ -24,7 +24,7 @@ Tools
 
 Made for quick work
 - Ctrl+Enter runs, Ctrl+Shift+C copies the result, Alt+1 to Alt+9 switch tools
-- The last five inputs of each tool come back when you return to it
+- The last five inputs of each tool are kept: the latest comes back when you return to it, and any of them is one pick away
 - A light and a dark theme
 - English and Korean, following the browser language
 

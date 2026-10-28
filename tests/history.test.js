@@ -1,5 +1,5 @@
 import { describe, test, expect } from '@jest/globals';
-import { createHistory, MAX_HISTORY } from '../src/lib/history.js';
+import { createHistory, historyLabel, MAX_HISTORY } from '../src/lib/history.js';
 import { memoryStorage } from './helpers/memoryStorage.js';
 
 describe('createHistory', () => {
@@ -32,5 +32,16 @@ describe('createHistory', () => {
     expect(history.load('url')).toEqual([]);
     history.save('json', 'x');
     expect(history.load('json')).toEqual(['x']);
+  });
+});
+
+describe('historyLabel', () => {
+  test('puts an entry on one line', () => {
+    expect(historyLabel('  {\n  "a": 1\n}  ')).toBe('{ "a": 1 }');
+  });
+
+  test('cuts a long entry with an ellipsis', () => {
+    expect(historyLabel('x'.repeat(60), 10)).toBe('xxxxxxxxx…');
+    expect(historyLabel('x'.repeat(10), 10)).toBe('xxxxxxxxxx');
   });
 });

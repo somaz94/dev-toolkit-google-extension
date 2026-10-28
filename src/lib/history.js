@@ -23,3 +23,9 @@ export function createHistory(storage = globalThis.localStorage, max = MAX_HISTO
     last: (tool) => load(tool)[0] ?? '',
   };
 }
+
+/** `entry` on one line, cut to `max` characters, for the history list. */
+export function historyLabel(entry, max = 48) {
+  const line = entry.replace(/\s+/g, ' ').trim();
+  return line.length > max ? `${line.slice(0, max - 1)}…` : line;
+}
