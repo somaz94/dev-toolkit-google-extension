@@ -2,6 +2,24 @@
 
 All notable changes to this project will be documented in this file.
 
+## [v1.3.1](https://github.com/somaz94/dev-toolkit-google-extension/compare/v1.3.0...v1.3.1) (2026-10-29)
+
+### Bug Fixes
+
+- describe the extension in a sentence instead of listing tool names ([e9aa6d9](https://github.com/somaz94/dev-toolkit-google-extension/commit/e9aa6d989559e4743611bbd9e29263871476872a))
+- align the tool options row with the text fields ([3ef28ba](https://github.com/somaz94/dev-toolkit-google-extension/commit/3ef28ba300b423af10bf1574564055d2d362e7fd))
+
+### Chores
+
+- bump version to 1.3.1 ([034c2b8](https://github.com/somaz94/dev-toolkit-google-extension/commit/034c2b8aecf4bf92f655527884554b3c00fe2bb8))
+- draw one promo tile for every language, as the store takes ([f3e69d0](https://github.com/somaz94/dev-toolkit-google-extension/commit/f3e69d0b74a517631402132b7ed9bba2de891d6a))
+
+### Contributors
+
+- somaz
+
+<br/>
+
 ## [v1.3.0](https://github.com/somaz94/dev-toolkit-google-extension/compare/v1.2.1...v1.3.0) (2026-10-28)
 
 ### Features
