@@ -3,7 +3,7 @@
     "message": "ko"
   },
   "extDescription": {
-    "message": "JSON, Base64, JWT, URL, 타임스탬프, 해시, UUID, 색상, 비교를 팝업 하나에서 오프라인으로 다루는 개발자 도구 모음"
+    "message": "개발하면서 자주 쓰는 데이터를 팝업 하나에서 정리하고 변환하는 도구 모음. 권한 없이 오프라인으로 동작합니다"
   },
   "tabTime": {
     "message": "시간"

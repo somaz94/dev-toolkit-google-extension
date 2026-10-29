@@ -64,7 +64,7 @@ Upload `store/screenshots/en/` to the default listing and `store/screenshots/ko/
 ### Single purpose
 
 ```text
-Convert, encode, decode and format developer data (JSON, Base64, JWT, URL, timestamps, hashes, UUIDs, colors and text diffs) that the user types into the popup.
+Convert, encode, decode and format developer data that the user types into the popup, such as JSON documents, encoded strings, tokens and timestamps.
 ```
 
 ### Permission justification
